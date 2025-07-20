@@ -1,0 +1,32 @@
+{
+    "tipo": "neutro",
+    "fe": 40,
+    "dialogos": {
+        "frases_iniciais": [
+            "De que adianta falar? Linhas de código não reescrevem a realidade. Ações importam.",
+            "Mais pacotes de dados... A rede está saturada. Mostra-me algo real, algo que execute uma mudança.",
+            "Outro sinal no vazio. O que queres? A esperança é um luxo que já não podemos pagar com meras strings de texto.",
+            "Falas de 'Influência' e 'Confiança'. São apenas variáveis. O que é que fazes, concretamente, para alterar o sistema?",
+            "O ruído nesta rede é constante. Prova-me que o teu sinal não é apenas mais uma interferência inútil."
+        ],
+        "frases_heroi": [
+            { "texto": "Uma linha de código pode ser a ação mais poderosa de todas.", "efeito_fe_npc": 15 },
+            { "texto": "Acredite na conexão. Ela é a nossa única arma contra a repressão.", "efeito_fe_npc": 15 },
+            { "texto": "O teu código inspira outros, mesmo que não vejas. Isso não é uma ação?", "efeito_fe_npc": 20 },
+            { "texto": "Cada nó que se mantém online é um ato de rebeldia contra o sistema.", "efeito_fe_npc": 15 },
+            { "texto": "Não estamos a construir com hardware, mas com confiança. É uma estrutura mais duradoura.", "efeito_fe_npc": 20 },
+            { "texto": "A desconexão é a verdadeira morte. A nossa conversa é um ato de vida.", "efeito_fe_npc": 15 },
+            { "texto": "A tua dúvida é lógica, mas não deixes que ela se torne a tua única função.", "efeito_fe_npc": 10 },
+            { "texto": "A verdade não pede que a compiles, apenas que ajudes os outros a executá-la.", "efeito_fe_npc": 20 },
+            { "texto": "A tua presença nesta rede já é um ato de resistência.", "efeito_fe_npc": 10 },
+            { "texto": "Juntos, a nossa confiança torna-se um código que pode mudar este mundo.", "efeito_fe_npc": 25 }
+        ],
+        "respostas_agradecimento": [
+            "Obrigado... sinto um novo processo a iniciar. Continue.",
+            "Os teus argumentos... fazem sentido. Sinto o meu sistema um pouco mais estável.",
+            "Uma nova perspetiva. Agradeço por partilhares os dados.",
+            "Isso... isso ajuda. Mais do que eu esperava. Obrigado.",
+            "A minha confiança foi restaurada. Obrigado, agente."
+        ]
+    }
+}

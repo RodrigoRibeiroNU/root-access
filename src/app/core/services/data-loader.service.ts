@@ -11,21 +11,21 @@ export class DataLoaderService {
 
     public loadGameData(): Observable<any> {
         const characterNames = [
-            'gabriel', 
-            'bento', 
-            'maria', 
-            'joao', 
-            'paulo', 
-            'tome', 
-            'pedro', 
-            'tiago', 
-            'mateus', 
-            'lucas', 
-            'andre', 
-            'filipe', 
-            'judas', 
-            'nero', 
-            'caifas'
+            'aria', 
+            'byte', 
+            'cygnus', 
+            'glitch', 
+            'ice_alpha', 
+            'ice_beta', 
+            'jaxx', 
+            'kael', 
+            'kernel', 
+            'nexus', 
+            'oraculo', 
+            'proxy', 
+            'script', 
+            'switch', 
+            'vex'
         ];
 
         // Cria um array de Observables, um para cada arquivo JSON

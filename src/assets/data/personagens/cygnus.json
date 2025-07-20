@@ -1,0 +1,8 @@
+{
+    "tipo": "lider",
+    "fe": 100,
+    "dialogos": {
+        "inicial": { "texto": "Eu duvidei que a rede pudesse ser libertada. A tua determinação prova que os meus cálculos estavam errados. O que desejas?", "opcoes": [{"texto": "Busco o quarto fragmento.", "proximo_dialogo": "revelacao", "efeito_fe_heroi": 5}] },
+        "revelacao": { "texto": "A dúvida é apenas o início da certeza. Medita nisto: '...que se manifesta na transparência...'. Que este Modulador de Sinal te proteja da vigilância do ICE.", "opcoes": [{"texto": "Faz sentido.", "adicionar_pista": "...que se manifesta na transparência...", "adicionar_item": "modulador"}] }
+    }
+}

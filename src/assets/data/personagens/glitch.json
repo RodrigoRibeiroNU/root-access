@@ -1,0 +1,27 @@
+{
+    "tipo": "neutro",
+    "fe": 35,
+    "dialogos": {
+        "frases_iniciais": [
+            "Eu conto os ciclos desde que a corporação assumiu o controlo. As perdas acumulam-se. Onde a tua 'influência' entra na equação?",
+            "A tua esperança é um erro de arredondamento numa tabela de perdas.",
+            "Os meus cálculos descrevem o mundo como ele é. A tua fé descreve uma fantasia.",
+            "A estatística do desespero só pode ser combatida com atos de lógica pura. O que me trazes?",
+            "Considere a liberdade como uma variável não comprovada. Mostra-me os dados."
+        ],
+        "frases_heroi": [
+            { "texto": "A esperança não é um número. É o que nos dá forças para continuar a contar.", "efeito_fe_npc": 20 },
+            { "texto": "Algumas variáveis não podem ser quantificadas. A confiança é uma delas.", "efeito_fe_npc": 15 },
+            { "texto": "A tua lógica é uma ferramenta, não uma prisão. Olha para além dos números.", "efeito_fe_npc": 15 },
+            { "texto": "Cada contacto que recrutamos é um dado que altera a equação a nosso favor.", "efeito_fe_npc": 20 },
+            { "texto": "O valor de uma vida não pode ser calculado, apenas afirmado.", "efeito_fe_npc": 15 }
+        ],
+        "respostas_agradecimento": [
+            "Uma variável que eu não considerei... Talvez a equação esteja incompleta. Obrigado.",
+            "Interessante. A minha lógica está a ser desafiada. Agradeço a perspetiva.",
+            "Sinto... um erro de arredondamento na minha tristeza. Obrigado.",
+            "Os teus dados são convincentes. A minha confiança aumentou.",
+            "Recalibraste os meus parâmetros. A minha conexão está mais forte."
+        ]
+    }
+}

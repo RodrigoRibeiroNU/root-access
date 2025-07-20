@@ -1,0 +1,10 @@
+{
+    "tipo": "agente",
+    "fe": 0,
+    "dialogos": {
+        "inicial": {
+            "texto": "É melhor que um sinal se apague para que a ordem prevaleça. Serás corrigido.",
+            "opcoes": [{"texto": "(Desconectar)"}]
+        }
+    }
+}

@@ -1,18 +1,18 @@
 {
-    "oracao": {
-        "nome": "Oração",
-        "descricao": "Um sussurro de esperança. Aumenta sua Luz interior em 5%. Pode ser usada uma vez por fase."
+    "ping_sweep": {
+        "nome": "Ping Sweep",
+        "descricao": "Uma varredura rápida na rede. Aumenta a tua Influência em 5%. Pode ser usado uma vez por setor."
     },
-    "escritura": {
-        "nome": "Escritura Sagrada",
-        "descricao": "Um fragmento de texto antigo. Restaura completamente a Luz de um alvo. Uso único."
+    "rootkit": {
+        "nome": "Rootkit de Acesso Total",
+        "descricao": "Um fragmento de código antigo. Garante 100% de Confiança de um alvo. Uso único."
     },
-    "crucifixo": {
-        "nome": "Crucifixo",
-        "descricao": "Símbolo de sacrifício. Reduz a atenção dos Agentes das Trevas enquanto estiver em uso."
+    "modulador": {
+        "nome": "Modulador de Sinal",
+        "descricao": "Distorce a tua assinatura na rede. Reduz a atenção do ICE enquanto estiver ativo."
     },
-    "rosario": {
-        "nome": "Rosário",
-        "descricao": "Um cordão de contas sagradas. Protege você completamente da influência sombria dos Agentes."
+    "firewall_breaker": {
+        "nome": "Firewall Breaker",
+        "descricao": "Um algoritmo de força bruta. Protege-te completamente da vigilância do ICE."
     }
 }

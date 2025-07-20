@@ -142,7 +142,7 @@ export class AppComponent implements OnInit, OnDestroy {
   getPlayerDisplayName(): string {
     const state = this.gameStateSvc.gameState;
     if (!state) return '';
-    const prefix = state.crucifixo_ativo ? '[+] ' : '';
+    const prefix = state.modulador_ativo ? '[+] ' : '';
     return `${prefix}${state.nome_jogador_global}`;
   }
 

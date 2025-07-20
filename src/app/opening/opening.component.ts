@@ -13,37 +13,40 @@ export class OpeningComponent implements OnInit, OnDestroy {
   @Output() openingComplete = new EventEmitter<void>();
 
   introText = [
-    'A escuridão desceu sobre o mundo. O sol é apenas uma memória.',
-    'Lá fora, o caos e o medo reinam. Nenhuma luz ousa brilhar.',
-    'Trancados, a humanidade encontrou um último refúgio: a rede de terminais antigos.',
-    'Nesta penumbra digital, vozes de esperança tentam guiar os perdidos para a Luz.',
-    'Mas os Agentes das Trevas espreitam, caçando cada centelha de fé para apagá-la.',
-    'Você foi chamado. Um farol em potencial neste oceano de desespero.',
-    'Sua missão: difundir a Luz. Sua jornada pela Redenção começa agora.'
+    'A OmniCorp controla o mundo.',
+    'Nas ruas e na rede, a liberdade é uma palavra esquecida.',
+    'A informação é a nova moeda, e a corporação vigia cada byte',
+    'com os seus sistemas de segurança, o ICE.',
+    'Mas nas sombras da darknet, dissidentes ainda resistem',
+    'a partir de terminais anónimos.',
+    'Um contacto, o "Oráculo", procura agentes para expor a verdade.',
+    'O alvo: o "Dossier Fantasma", um ficheiro encriptado',
+    'cuja chave de desencriptação foi dividida em fragmentos.',
+    'Você é o mais recente recruta.',
+    'A sua missão: reunir os fragmentos e derrubar o sistema.',
+    'A sua operação começa agora.'
   ];
-  
+
   displayedText: string[] = [];
   animationStep = 'power-on';
   private timers: any[] = [];
 
   constructor(private soundSvc: SoundService) {}
-  
+
   ngOnInit() {
     this.soundSvc.playMusic('abertura');
-    // Inicia a sequência de animação
     const powerOnTimer = setTimeout(() => {
       this.animationStep = 'scanline';
       const typingTimer = setTimeout(() => {
         this.startTyping();
-      }, 2000); // Espera 2s após a scanline aparecer
+      }, 2000);
       this.timers.push(typingTimer);
-    }, 2500); // Duração da animação de "power-on"
+    }, 2500);
     this.timers.push(powerOnTimer);
   }
 
   ngOnDestroy() {
     this.soundSvc.stopMusic();
-    // Limpa todos os timers para evitar memory leaks
     this.timers.forEach(clearTimeout);
   }
 
@@ -54,7 +57,6 @@ export class OpeningComponent implements OnInit, OnDestroy {
 
   typeLine(index: number) {
     if (index >= this.introText.length) {
-      // Quando todas as linhas terminarem, espera um pouco e emite o evento
       const completeTimer = setTimeout(() => {
         this.openingComplete.emit();
       }, 4000);
@@ -65,7 +67,7 @@ export class OpeningComponent implements OnInit, OnDestroy {
     this.displayedText.push(this.introText[index]);
     const nextLineTimer = setTimeout(() => {
       this.typeLine(index + 1);
-    }, 2500); // Intervalo entre as linhas
+    }, 2500);
     this.timers.push(nextLineTimer);
   }
 }

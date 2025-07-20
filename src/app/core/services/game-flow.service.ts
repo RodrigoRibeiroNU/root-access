@@ -29,7 +29,7 @@ export class GameFlowService {
             nome_jogador_global: 'PENDING'
         });
         this.stateSvc.clearLog();
-        this.stateSvc.addLog("Iniciando novo jogo...", 'log-sistema');
+        this.stateSvc.addLog("Iniciando nova operação...", 'log-sistema');
     }
     
     public startGameplayMusic() {
@@ -63,27 +63,38 @@ export class GameFlowService {
         this.stateSvc.clearLog();
         const menuScreen: LogLine[] = [
             { text: ``, className: 'log-sistema' },
-            { text: `           +-------------------------------------------------------------+`, className: 'log-sistema' },
-            { text: `           |                                                             |`, className: 'log-sistema' },
-            { text: `           |                     TERMINAL DA REDENÇÃO                    |`, className: 'log-positivo' },
-            { text: `           |                                                             |`, className: 'log-sistema' },
-            { text: `           |                             +++                             |`, className: 'log-heroi' },
-            { text: `           |                             +++                             |`, className: 'log-heroi' },
-            { text: `           |                        +++++++++++++                        |`, className: 'log-heroi' },
-            { text: `           |                        +++++++++++++                        |`, className: 'log-heroi' },
-            { text: `           |                             +++                             |`, className: 'log-heroi' },
-            { text: `           |                             +++                             |`, className: 'log-heroi' },
-            { text: `           |                             +++                             |`, className: 'log-heroi' },
-            { text: `           |                             +++                             |`, className: 'log-heroi' },
-            { text: `           |                             +++                             |`, className: 'log-heroi' },
-            { text: `           |                                                             |`, className: 'log-sistema' },
-            { text: `           |              [novo] [carregar] [config] [sair]               |`, className: 'log-sistema' },
-            { text: `           |                                                             |`, className: 'log-sistema' },
-            { text: `           +-------------------------------------------------------------+`, className: 'log-sistema' },
+            { text: `  +--------------------------------------------------------------------------------------------------+`, className: 'log-sistema' },
+            { text: `  |                                            NÓ TERMINAL                                           |`, className: 'log-positivo' },
+            { text: `  |                                         ################                                         |`, className: 'log-heroi' },
+            { text: `  |                                   ############################                                   |`, className: 'log-heroi' },
+            { text: `  |                                 ################################                                 |`, className: 'log-heroi' },
+            { text: `  |                               ####################################                               |`, className: 'log-heroi' },
+            { text: `  |                               ######################################                             |`, className: 'log-heroi' },
+            { text: `  |                             ########################################                             |`, className: 'log-heroi' },
+            { text: `  |                             ########################################                             |`, className: 'log-heroi' },
+            { text: `  |                             ########      ++##########      ########                             |`, className: 'log-heroi' },
+            { text: `  |                             MM####          ########          ######                             |`, className: 'log-heroi' },
+            { text: `  |                             @@####            @@##..          @@####                             |`, className: 'log-heroi' },
+            { text: `  |                             --@@##            ######          MM####                             |`, className: 'log-heroi' },
+            { text: `  |                               ####          ########          ####                               |`, className: 'log-heroi' },
+            { text: `  |                               ####################################                               |`, className: 'log-heroi' },
+            { text: `  |                               ################    ################                               |`, className: 'log-heroi' },
+            { text: `  |                             --##############        ################                             |`, className: 'log-heroi' },
+            { text: `  |                             @@##############        ################                             |`, className: 'log-heroi' },
+            { text: `  |                               ##############  ::MM  ##############                               |`, className: 'log-heroi' },
+            { text: `  |                                       ####################                                       |`, className: 'log-heroi' },
+            { text: `  |                                       @@##################                                       |`, className: 'log-heroi' },
+            { text: `  |                                         ##  ####++##  ####                                       |`, className: 'log-heroi' },
+            { text: `  |                                       ::##  ####++##  ####                                       |`, className: 'log-heroi' },
+            { text: `  |                                               --..                                               |`, className: 'log-heroi' },
+            { text: `  |                                                                                                  |`, className: 'log-sistema' },
+            { text: `  |                               [novo]  [carregar]  [config]  [sair]                                |`, className: 'log-sistema' },
+            { text: `  +--------------------------------------------------------------------------------------------------+`, className: 'log-sistema' },
             { text: ``, className: 'log-sistema' },
-            { text: `           Versão ${packageInfo.version}`, className: 'log-sistema' },
-            { text: `           Digite um comando para continuar.`, className: 'log-sistema' }
+            { text: `   Versão ${packageInfo.version}`, className: 'log-sistema' },
+            { text: `   Digite um comando para continuar.`, className: 'log-sistema' }
         ];
+
         this.stateSvc.addLogBlock(menuScreen);
     }
     
@@ -94,7 +105,7 @@ export class GameFlowService {
 
         const phaseKey = `fase_${gameState.fase_atual}`;
         const phaseData = gameData.fases_jogo[phaseKey];
-        if (!phaseData) return "Redenção alcançada.";
+        if (!phaseData) return "Verdade exposta. Missão cumprida.";
 
         let objetivoIndex;
         if (gameState.fase_atual < 6) {
@@ -108,17 +119,17 @@ export class GameFlowService {
                 : phaseData.objetivo_espera_indice;
         }
 
-        return gameData.objetivos[objetivoIndex] || "Redenção alcançada.";
+        return gameData.objetivos[objetivoIndex] || "Verdade exposta. Missão cumprida.";
     }
 
     public getCurrentPromptText(): string {
         const state = this.stateSvc.gameState;
         if (!state) return '>';
-        if (state.pending_action?.item === 'escritura') {
+        if (state.pending_action?.item === 'rootkit') {
             return 'Alvo:';
         }
         if (state.nome_jogador_global === 'PENDING') {
-            return 'Nome:';
+            return 'Codinome:';
         }
         return '>';
     }
@@ -140,8 +151,8 @@ export class GameFlowService {
     public getAverageFaith(): number {
         const gameState = this.stateSvc.gameState;
         const personagens = Object.values(gameState.personagens_atuais);
-        if (personagens.length === 0) return gameState.heroi_fe_percent;
-        const totalFaith = personagens.reduce((sum, p) => sum + p.fe, gameState.heroi_fe_percent);
+        if (personagens.length === 0) return gameState.heroi_influencia_percent;
+        const totalFaith = personagens.reduce((sum, p) => sum + p.fe, gameState.heroi_influencia_percent);
         return totalFaith / (personagens.length + 1);
     }
 
@@ -159,7 +170,7 @@ export class GameFlowService {
 
         if (convertidos >= phaseData.conversao_necessaria) {
             this.stateSvc.setGameState({ objetivo_fase_concluido: true });
-            this.stateSvc.addLog(`[SISTEMA] Objetivo de conversão concluído! Fale com Gabriel para o próximo passo.`, 'log-positivo');
+            this.stateSvc.addLog(`[SISTEMA] Objetivo de influência concluído! Reporte ao Oráculo para a próxima diretiva.`, 'log-positivo');
         }
     }
 
@@ -175,7 +186,7 @@ export class GameFlowService {
                 const baseNpcData = gameState.all_characters_in_game_pool[npcName];
                 if (baseNpcData) {
                     personagensAtuais[npcName] = JSON.parse(JSON.stringify(baseNpcData));
-                    this.stateSvc.addLog(`${npcName.toUpperCase()} apareceu online.`, 'log-sistema');
+                    this.stateSvc.addLog(`${npcName.toUpperCase()} está online.`, 'log-sistema');
                 }
             }
         });
@@ -195,7 +206,7 @@ export class GameFlowService {
                 if (baseNpcData) {
                     personagensAtuais[liderName] = JSON.parse(JSON.stringify(baseNpcData));
                     this.stateSvc.setGameState({ personagens_atuais: personagensAtuais });
-                    this.stateSvc.addLog(`[SISTEMA]: ${liderName.toUpperCase()} agora está online e acessível.`, 'log-positivo');
+                    this.stateSvc.addLog(`[SISTEMA]: O admin ${liderName.toUpperCase()} está agora acessível na rede.`, 'log-positivo');
                 }
             }
         }

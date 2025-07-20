@@ -1,0 +1,8 @@
+{
+    "tipo": "lider",
+    "fe": 100,
+    "dialogos": {
+        "inicial": { "texto": "A tua presença aquece este nó frio. Fala, agente da mudança.", "opcoes": [{"texto": "O Oráculo enviou-me pelo segundo fragmento.", "proximo_dialogo": "revelacao", "efeito_fe_heroi": 5}] },
+        "revelacao": { "texto": "Então continua a montagem. Adiciona isto: '...mas na recusa em partilhá-los...'. Que este Rootkit liberte mentes que fraquejam.", "opcoes": [{"texto": "Entendido.", "adicionar_pista": "...mas na recusa em partilhá-los...", "adicionar_item": "rootkit"}] }
+    }
+}

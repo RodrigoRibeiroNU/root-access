@@ -1,0 +1,27 @@
+{
+    "tipo": "neutro",
+    "fe": 50,
+    "dialogos": {
+        "frases_iniciais": [
+            "Analiso os logs. A repressão da corporação é a doença. O medo, o sintoma. Não vejo uma cura lógica.",
+            "A minha função é diagnosticar falhas no sistema. A tua 'esperança' parece ser a maior de todas.",
+            "Considere a 'influência' como a primeira dose do tratamento. Mostra-me que funciona.",
+            "A lógica cura o código, mas a confiança cura a rede. Ambas são necessárias, suponho.",
+            "Não há ensaio clínico para a liberdade, apenas a experiência pessoal. Convence-me."
+        ],
+        "frases_heroi": [
+            { "texto": "A cura não é lógica, é conexão. A confiança de um inspira o outro.", "efeito_fe_npc": 15 },
+            { "texto": "O diagnóstico está correto, mas o tratamento que esqueceste foi a coragem.", "efeito_fe_npc": 15 },
+            { "texto": "Juntos, podemos criar uma epidemia de verdade.", "efeito_fe_npc": 25 },
+            { "texto": "A doença é o isolamento. A cura é esta conversa.", "efeito_fe_npc": 25 },
+            { "texto": "A tua lógica é valiosa, mas precisa de ser guiada pela determinação.", "efeito_fe_npc": 10 }
+        ],
+        "respostas_agradecimento": [
+            "Uma... terapia de rede? A hipótese é fascinante. Obrigado.",
+            "Um contágio de confiança... Gosto da tua metodologia. Sinto-me... otimizado.",
+            "Os sintomas do medo estão a diminuir. O teu tratamento funciona.",
+            "Um novo diagnóstico. Promissor. Agradeço a consulta.",
+            "A minha análise estava incompleta. Trouxeste a variável que faltava. Obrigado."
+        ]
+    }
+}

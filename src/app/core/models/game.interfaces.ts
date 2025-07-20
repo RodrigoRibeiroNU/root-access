@@ -2,7 +2,7 @@ export type GameView = 'loading' | 'title' | 'opening' | 'menu' | 'gameplay' | '
 
 export interface NpcData {
   tipo: 'guia' | 'agente' | 'neutro' | 'lider' | 'sabio';
-  fe: number;
+  fe: number; // A 'fé' interna dos NPCs pode manter o nome, pois é a mecânica base
   dialogos: any;
 }
 
@@ -14,8 +14,8 @@ export interface PendingAction {
 export interface GameState {
   current_view: GameView;
   fase_atual: number;
-  heroi_fe_percent: number;
-  pistas: string[];
+  heroi_influencia_percent: number; // Renomeado de heroi_fe_percent
+  fragmentos_chave: string[]; // Renomeado de pistas
   personagens_atuais: { [key: string]: NpcData };
   all_characters_in_game_pool: { [key: string]: NpcData };
   game_over: boolean;
@@ -25,11 +25,11 @@ export interface GameState {
   objetivo_fase_concluido: boolean;
   fase_final_iniciada: boolean;
   pending_action: PendingAction | null;
-  oracao_usada_na_fase_atual: boolean;
-  crucifixo_ativo: boolean;
-  rosario_ativo: boolean;
+  ping_sweep_usado_no_setor: boolean; // Renomeado de oracao_usada_na_fase_atual
+  modulador_ativo: boolean; // Renomeado de crucifixo_ativo
+  firewall_breaker_ativo: boolean; // Renomeado de rosario_ativo
   previous_view?: GameView;
-  recent_log?: LogLine[]; 
+  recent_log?: LogLine[];
 }
 
 export interface LogLine {

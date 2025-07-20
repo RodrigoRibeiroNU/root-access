@@ -25,12 +25,11 @@ export class CommandService {
     return str
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+      .replace(/[\u00e0-\u00e5\u00e8-\u00eb\u00ec-\u00ef\u00f2-\u00f6\u00f9-\u00fc\u00fd\u00ff]/g, "a");
   }
 
   private initializeAudio() {
     if (!this.audioInitialized) {
-      // Passa a configuração inicial para o serviço de som
       this.soundSvc.init(this.stateSvc.gameData.config.audio);
       this.audioInitialized = true;
     }
@@ -42,16 +41,13 @@ export class CommandService {
     const gameState = this.stateSvc.gameState;
     if (gameState.game_over) return;
 
-    // Ação pendente tem prioridade (ex: usar item em um alvo)
     if (gameState.pending_action) {
-      if (gameState.pending_action.item === 'escritura') {
-        // Para o alvo, mantemos o nome original digitado
+      if (gameState.pending_action.item === 'rootkit') {
         this.itemSvc.usarEscrituraNoAlvo(command);
       }
       return;
     }
 
-    // Comando oculto para teste do protetor de tela
     if (command.trim().toLowerCase() === 'screensaver.exe') {
       this.inactivitySvc.forceScreensaver();
       return;
@@ -59,23 +55,21 @@ export class CommandService {
     
     this.stateSvc.addLog(`> ${command}`, 'log-heroi');
 
-    // Normaliza o comando completo antes de dividir
     const normalizedCommand = this.normalizeString(command);
     const parts = normalizedCommand.split(' ');
     const acao = parts[0];
     const argumento = parts.slice(1).join(' ');
 
-    // Impede outros comandos durante um diálogo
     if (gameState.dialogo_atual && acao !== 'responder') {
-      this.stateSvc.addLog("Use 'responder [num]' para continuar a conversa.", 'log-sistema');
+      this.stateSvc.addLog("Use 'responder [num]' para continuar a transmissão.", 'log-sistema');
       return;
     }
 
     const comandos: { [key: string]: Function } = {
       "novo": () => this.flowSvc.startOpeningSequence(),
-      "ajuda": () => this.stateSvc.addLog("Comandos: falar, usar, online, pistas, inventario, salvar, carregar, config, sair", 'log-positivo'),
+      "ajuda": () => this.stateSvc.addLog("Comandos: falar, usar, online, chaves, inventario, salvar, carregar, config, sair", 'log-positivo'),
       "online": () => this.listarPersonagensOnline(),
-      "pistas": () => this.listarPistas(),
+      "chaves": () => this.listarPistas(),
       "inventario": () => this.listarInventario(),
       "falar": () => this.characterSvc.iniciarDialogo(argumento),
       "responder": () => this.characterSvc.processarRespostaDialogo(command),
@@ -89,44 +83,43 @@ export class CommandService {
     if (comandos[acao]) {
       comandos[acao]();
     } else {
-      this.stateSvc.addLog(`Comando não reconhecido: ${acao}`, 'log-negativo');
+      this.stateSvc.addLog(`Comando inválido: ${acao}. Sinal perdido.`, 'log-negativo');
       this.soundSvc.playSfx('corrupcao');
     }
 
-    // A ação do agente só ocorre fora de diálogos e ações pendentes
     if (!this.stateSvc.gameState.dialogo_atual && !this.stateSvc.gameState.pending_action) {
-        this.characterSvc.agentAction();
+        this.characterSvc.acaoDoICE();
     }
   }
 
   private listarPersonagensOnline(): void {
     const gameState = this.stateSvc.gameState;
-    this.stateSvc.addLog("Personagens online:", 'log-sistema');
+    this.stateSvc.addLog("Contactos online:", 'log-sistema');
     Object.entries(gameState.personagens_atuais).forEach(([name, data]) => {
-      const feStr = `(Fé: ${data.fe.toFixed(0)}%)`;
+      const feStr = `(Confiança: ${data.fe.toFixed(0)}%)`;
       this.stateSvc.addLog(`- ${name.toUpperCase()} ${feStr}`, this.characterSvc.getNpcColor(data));
     });
   }
 
   private listarPistas(): void {
     const gameState = this.stateSvc.gameState;
-    this.stateSvc.addLog("Pistas coletadas:", 'log-sistema');
-    if (gameState.pistas.length === 0) {
-        this.stateSvc.addLog("Nenhuma.", 'log-sistema');
+    this.stateSvc.addLog("Fragmentos da chave adquiridos:", 'log-sistema');
+    if (gameState.fragmentos_chave.length === 0) {
+        this.stateSvc.addLog("Nenhum fragmento encontrado.", 'log-sistema');
         return;
     }
-    gameState.pistas.forEach(pista => this.stateSvc.addLog(`- ${pista}`, 'log-positivo'));
+    gameState.fragmentos_chave.forEach(pista => this.stateSvc.addLog(`- ${pista}`, 'log-positivo'));
   }
 
   private listarInventario(): void {
     const gameState = this.stateSvc.gameState;
     const gameData = this.stateSvc.gameData;
-    this.stateSvc.addLog("Inventário:", 'log-sistema');
+    this.stateSvc.addLog("Software no inventário:", 'log-sistema');
     
     const itensDoInventario = Object.keys(gameState.heroi_inventory);
 
     if (itensDoInventario.every(key => gameState.heroi_inventory[key] === 0)) {
-        this.stateSvc.addLog("Vazio.", 'log-sistema');
+        this.stateSvc.addLog("Nenhum software disponível.", 'log-sistema');
         return;
     }
 

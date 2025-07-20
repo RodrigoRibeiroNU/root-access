@@ -10,8 +10,8 @@ export class GameStateService {
   private readonly initialGameState: GameState = {
     current_view: 'loading',
     fase_atual: 1,
-    heroi_fe_percent: 70,
-    pistas: [],
+    heroi_influencia_percent: 70,
+    fragmentos_chave: [],
     personagens_atuais: {},
     all_characters_in_game_pool: {},
     game_over: false,
@@ -21,9 +21,9 @@ export class GameStateService {
     objetivo_fase_concluido: false,
     fase_final_iniciada: false,
     pending_action: null,
-    oracao_usada_na_fase_atual: false,
-    crucifixo_ativo: false,
-    rosario_ativo: false,
+    ping_sweep_usado_no_setor: false,
+    modulador_ativo: false,
+    firewall_breaker_ativo: false,
     previous_view: undefined,
     recent_log: [],
   };
@@ -54,16 +54,28 @@ export class GameStateService {
     const nextState = { ...currentState, ...newState };
 
     if (nextState.fase_atual > currentState.fase_atual) {
-      nextState.oracao_usada_na_fase_atual = false;
-      this.addLog('[SISTEMA]: Você sente a sua Oração revigorada para esta nova fase.', 'log-positivo');
+      nextState.ping_sweep_usado_no_setor = false;
+      this.addLog('[SISTEMA]: O teu software "Ping Sweep" foi recarregado para este novo setor da rede.', 'log-positivo');
     }
 
     this._gameState.next(nextState);
   }
 
   public addLog(text: string, className: string = '') {
+    const LARGURA_MAXIMA_TERMINAL = 90; // Ajusta este valor conforme o design do teu terminal
     const currentLog = this._terminalLog.getValue();
-    this._terminalLog.next([...currentLog, { text, className }]);
+    const newLines: LogLine[] = [];
+
+    // Remove a tag de parágrafo se ela já existir para evitar aninhamento
+    const cleanText = text.replace(/<\/?p>/g, '');
+
+    const wrappedLines = this.wordWrap(cleanText, LARGURA_MAXIMA_TERMINAL);
+    
+    wrappedLines.forEach(line => {
+      newLines.push({ text: line, className });
+    });
+
+    this._terminalLog.next([...currentLog, ...newLines]);
   }
 
   public clearLog() {
@@ -90,62 +102,85 @@ export class GameStateService {
           
           this.clearLog();
 
-          // Restaura o histórico, se existir
           if (loadedState.recent_log && loadedState.recent_log.length > 0) {
             this.addLogBlock(loadedState.recent_log);
             this.addLog("--------------------------------------------------", "log-sistema");
           }
           
-          // Apaga o histórico do objeto para não ficar na memória
           delete loadedState.recent_log;
           
-// Guarda uma cópia dos personagens com a fé correta do ficheiro salvo
           const personagensSalvos = { ...loadedState.personagens_atuais };
-
-          // Define o estado base, mas ainda sem os personagens
           this.setGameState({ ...loadedState, personagens_atuais: {} });
-
-          // Prepara a nova lista de personagens que estarão ativos
           const personagensRecarregados: { [key: string]: NpcData } = {};
 
-          // Itera por todas as fases até à fase atual do jogador
           for (let i = 1; i <= loadedState.fase_atual; i++) {
               const phaseKey = `fase_${i}`;
               const phaseData = this.gameData.fases_jogo[phaseKey];
-
               if (phaseData) {
-                  // Função auxiliar para adicionar/atualizar um personagem
                   const adicionarOuAtualizarPersonagem = (npcName: string) => {
                     if (!npcName) return;
-                    // Se o personagem já estava no ficheiro salvo, usa esses dados (com a fé correta)
                     if (personagensSalvos[npcName]) {
                         personagensRecarregados[npcName] = personagensSalvos[npcName];
                     } 
-                    // Se não, carrega-o do estado base (primeira vez que aparece)
                     else if (loadedState.all_characters_in_game_pool[npcName]) {
                         personagensRecarregados[npcName] = JSON.parse(JSON.stringify(loadedState.all_characters_in_game_pool[npcName]));
                     }
                   };
-
-                  // Adiciona os NPCs iniciais da fase
                   phaseData.initial_active_npcs.forEach(adicionarOuAtualizarPersonagem);
-
-                  // Se o objetivo da fase foi concluído, ativa também o líder
                   if (i < loadedState.fase_atual || (i === loadedState.fase_atual && loadedState.objetivo_fase_concluido)) {
                       adicionarOuAtualizarPersonagem(phaseData.lider);
                   }
               }
           }
           
-          // Atualiza o estado final com a lista de personagens completa e com a fé correta
           this.setGameState({ personagens_atuais: personagensRecarregados });
-          this.addLog("Jogo carregado com sucesso a partir do ficheiro!", 'log-positivo');
+          this.addLog("Transmissão carregada com sucesso a partir do ficheiro!", 'log-positivo');
         }
       } catch (error) {
-        this.addLog("Erro: O ficheiro de salvamento parece estar corrompido ou tem um formato inválido.", 'log-negativo');
+        this.addLog("Erro: O ficheiro de save parece estar corrompido ou tem um formato inválido.", 'log-negativo');
       }
     };
     reader.readAsText(file);
+  }
+
+  private wordWrap(text: string, maxWidth: number): string[] {
+    if (text.length <= maxWidth) {
+      return [text];
+    }
+
+    const words = text.split(' ');
+    const lines: string[] = [];
+    let currentLine = '';
+
+    for (const word of words) {
+      // Verifica se a palavra sozinha excede o limite (caso extremo)
+      if (word.length > maxWidth) {
+        if (currentLine.length > 0) {
+          lines.push(currentLine);
+        }
+        lines.push(word); // Adiciona a palavra longa numa linha própria
+        currentLine = '';
+        continue;
+      }
+
+      // Verifica se adicionar a próxima palavra excede o limite
+      if ((currentLine + ' ' + word).trim().length > maxWidth) {
+        lines.push(currentLine);
+        currentLine = word;
+      } else {
+        if (currentLine.length === 0) {
+          currentLine = word;
+        } else {
+          currentLine += ' ' + word;
+        }
+      }
+    }
+
+    if (currentLine.length > 0) {
+      lines.push(currentLine);
+    }
+
+    return lines;
   }
 
   public exportSaveToFile() {
@@ -160,13 +195,9 @@ export class GameStateService {
     const url = window.URL.createObjectURL(dataBlob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `redencao_save_${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = `noterminal_save_${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     window.URL.revokeObjectURL(url);
-    this.addLog("Ficheiro de salvamento gerado. Verifique os seus downloads.", 'log-positivo');
-  }
-
-  private autosaveToLocalStorage() {
-    localStorage.setItem('redencao_autosave', JSON.stringify(this.gameState));
+    this.addLog("Ficheiro de save encriptado. Verifique os seus downloads.", 'log-positivo');
   }
 }

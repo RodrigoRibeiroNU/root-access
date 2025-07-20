@@ -1,0 +1,8 @@
+{
+    "tipo": "sabio",
+    "fe": 100,
+    "dialogos": {
+        "inicial": { "texto": "Acesso ao núcleo... concedido. Sinto a ressonância de uma chave de desencriptação há muito perdida. Mostra-me os fragmentos que reuniste.", "opcoes": [{"texto": "(Executar a chave do Dossier Fantasma)", "proximo_dialogo": "decifrar"}] },
+        "decifrar": { "texto": "(O Nexus processa a chave, e uma luz suave emana do teu terminal) 'A corrupção não está na ausência de dados... mas na recusa em partilhá-los... pois a informação é poder... que se manifesta na transparência... e a verdadeira rede... une consciências.' A verdade, agente, não é um ficheiro. É a nossa decisão de a partilhar uns com os outros, juntos.", "vitoria": true }
+    }
+}

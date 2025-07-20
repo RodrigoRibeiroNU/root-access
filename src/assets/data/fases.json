@@ -1,17 +1,17 @@
 {
     "objetivos": [
-        "Acenda a Luz em 1 alma (80%) e fale com Gabriel.",
-        "Fale com a líder Maria para obter a primeira estrofe.",
-        "Acenda a Luz em um total de 2 almas (80%) e fale com Gabriel.",
-        "Fale com o líder João para obter a segunda estrofe.",
-        "Acenda a Luz em um total de 3 almas (80%) e fale com Gabriel.",
-        "Fale com o líder Paulo para obter a terceira estrofe.",
-        "Acenda a Luz em um total de 4 almas (80%) e fale com Gabriel.",
-        "Fale com o líder Tomé para obter a quarta estrofe.",
-        "Acenda a Luz em um total de 5 almas (80%) e fale com Gabriel.",
-        "Fale com o líder Pedro para obter a quinta estrofe.",
-        "Aumente a Luz média da rede para >80% para ter acesso ao Sábio.",
-        "Leve o Hino do Amanhecer ao Sábio Bento."
+        "Ganha a Confiança de 1 contacto (80%) e reporta ao Oráculo.",
+        "Contacta a Admin 'Aria' para obter o primeiro fragmento da chave.",
+        "Ganha a Confiança de 2 contactos (80%) e reporta ao Oráculo.",
+        "Contacta o Admin 'Jaxx' para obter o segundo fragmento da chave.",
+        "Ganha a Confiança de 3 contactos (80%) e reporta ao Oráculo.",
+        "Contacta o Admin 'Kael' para obter o terceiro fragmento da chave.",
+        "Ganha a Confiança de 4 contactos (80%) e reporta ao Oráculo.",
+        "Contacta o Admin 'Cygnus' para obter o quarto fragmento da chave.",
+        "Ganha a Confiança de 5 contactos (80%) e reporta ao Oráculo.",
+        "Contacta o Admin 'Vex' para obter o último fragmento da chave.",
+        "Aumenta a Influência média da rede para >80% para aceder ao mainframe.",
+        "Leva a chave de desencriptação completa ao mainframe 'Nexus'."
     ],
     "fases_jogo": {
         "fase_1": {
@@ -19,11 +19,11 @@
             "objetivo_conversao_indice": 0,
             "objetivo_lider_indice": 1,
             "conversao_necessaria": 1,
-            "lider": "maria",
+            "lider": "aria",
             "initial_active_npcs": [
-                "gabriel",
-                "tiago",
-                "nero"
+                "oraculo",
+                "byte",
+                "ice_alpha"
             ]
         },
         "fase_2": {
@@ -31,9 +31,9 @@
             "objetivo_conversao_indice": 2,
             "objetivo_lider_indice": 3,
             "conversao_necessaria": 2,
-            "lider": "joao",
+            "lider": "jaxx",
             "initial_active_npcs": [
-                "mateus"
+                "glitch"
             ]
         },
         "fase_3": {
@@ -41,10 +41,10 @@
             "objetivo_conversao_indice": 4,
             "objetivo_lider_indice": 5,
             "conversao_necessaria": 3,
-            "lider": "paulo",
+            "lider": "kael",
             "initial_active_npcs": [
-                "lucas",
-                "caifas"
+                "script",
+                "ice_beta"
             ]
         },
         "fase_4": {
@@ -52,9 +52,9 @@
             "objetivo_conversao_indice": 6,
             "objetivo_lider_indice": 7,
             "conversao_necessaria": 4,
-            "lider": "tome",
+            "lider": "cygnus",
             "initial_active_npcs": [
-                "andre"
+                "kernel"
             ]
         },
         "fase_5": {
@@ -62,25 +62,25 @@
             "objetivo_conversao_indice": 8,
             "objetivo_lider_indice": 9,
             "conversao_necessaria": 5,
-            "lider": "pedro",
+            "lider": "vex",
             "initial_active_npcs": [
-                "filipe",
-                "judas"
+                "proxy",
+                "switch"
             ]
         },
         "fase_6": {
             "id": 6,
             "objetivo_espera_indice": 10,
             "objetivo_final_indice": 11,
-            "sabio": "bento",
+            "sabio": "nexus",
             "initial_active_npcs": [
-                "bento"
+                "nexus"
             ]
         }
     },
     "finais": {
-        "vitoria": "Você recitou o Hino. A Luz não voltou ao céu, mas floresceu na rede, uma conexão inquebrável entre todos. O Amanhecer não é um evento, mas uma escolha. A escolha de serem luz uns para os outros. Você encontrou a Redenção.",
-        "fe_baixa": "Sua luz se apagou. Consumido pela escuridão, seu terminal se silencia. Você se torna mais um eco perdido na estática. Fim da linha.",
-        "impasse": "Um caminho para a Redenção foi perdido para sempre. Não há mais esperança de reunir o Hino. A escuridão vence. Fim da linha."
+        "vitoria": "Você executou a chave. O Dossier Fantasma foi desencriptado e transmitido para todas as redes globais. A verdade sobre a corporação foi exposta. A rede não é mais uma prisão, mas uma arma para a liberdade. Você encontrou a sua redenção no código.",
+        "fe_baixa": "A sua influência caiu a zero. Localizado e isolado pelo ICE, o teu terminal é desligado da rede. Tornas-te um fantasma nos cabos, um eco perdido no sistema. Fim da linha.",
+        "impasse": "Um fragmento da chave foi perdido para sempre. Não há mais esperança de montar o Dossier. A corporação vence. A escuridão digital prevalece. Fim da linha."
     }
 }
