@@ -64,7 +64,7 @@ export class GameFlowService {
         const menuScreen: LogLine[] = [
             { text: ``, className: 'log-sistema' },
             { text: `  +--------------------------------------------------------------------------------------------------+`, className: 'log-sistema' },
-            { text: `  |                                            NÓ TERMINAL                                           |`, className: 'log-positivo' },
+            { text: `  |                                            ROOT ACCESS                                           |`, className: 'log-positivo' },
             { text: `  |                                         ################                                         |`, className: 'log-heroi' },
             { text: `  |                                   ############################                                   |`, className: 'log-heroi' },
             { text: `  |                                 ################################                                 |`, className: 'log-heroi' },
