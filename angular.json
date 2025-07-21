@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "terminal-da-redencao": {
+    "root-access": {
       "projectType": "application",
       "root": "",
       "sourceRoot": "src",
@@ -12,7 +12,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/root-acces",
+            "outputPath": "dist/root-access",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -23,7 +23,7 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/root-acces/",
+              "baseHref": "/root-access/",
               "budgets": [
                 {
                   "type": "initial",
