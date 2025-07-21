@@ -37,6 +37,10 @@ jobs:
       - name: Build Project 🔨
         run: npm run build -- --configuration production
 
+      # --- ESTE É O PASSO DE DEPURAÇÃO IMPORTANTE ---
+      - name: List output files 🔍
+        run: ls -R dist
+
       - name: Setup Pages 🛠️
         uses: actions/configure-pages@v5
 
