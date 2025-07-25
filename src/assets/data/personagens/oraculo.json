@@ -2,18 +2,102 @@
     "tipo": "guia",
     "fe": 100,
     "dialogos": {
-        "saudacao": "Sinal recebido, {jogador_nome}. Nesta rede de mentiras, cada agente como tu é uma chance de verdade.",
-        "fase_1_inicio": { "texto": "Para começar, precisas de criar uma base. Ganha a Confiança de 1 contacto para provar que és capaz. Depois, reporta a mim.", "opcoes": [{"texto": "A verdade prevalecerá."}] },
-        "fase_1_fim": { "texto": "Bom trabalho. Um novo nó de confiança foi criado. Procura a admin 'Aria'. Ela tem o primeiro fragmento da chave do Dossier Fantasma.", "opcoes": [{"texto": "Vou encontrá-la."}] },
-        "fase_2_inicio": { "texto": "A tua influência cresce, mas a vigilância do ICE também. Precisamos de mais aliados. Consegue a Confiança de 2 contactos e volta.", "opcoes": [{"texto": "Assim será feito."}] },
-        "fase_2_fim": { "texto": "Excelente. A tua reputação espalha-se. Procura 'Jaxx', o admin que vive nos arquivos mortos. Ele tem o segundo fragmento.", "opcoes": [{"texto": "A caminho."}] },
-        "fase_3_inicio": { "texto": "Três aliados são uma célula de resistência. Recruta mais um. Precisamos de 3 contactos com 80% de Confiança.", "opcoes": [{"texto": "A rede vai expandir-se."}] },
-        "fase_3_fim": { "texto": "Impressionante. A tua determinação é uma arma. Vai até 'Kael', o admin que já trabalhou para o ICE. Ele guarda o terceiro fragmento.", "opcoes": [{"texto": "Entendido."}] },
-        "fase_4_inicio": { "texto": "O ICE sente a nossa presença. Precisamos de mais nós seguros. Eleva um total de 4 contactos para 80%.", "opcoes": [{"texto": "Eles não nos vão parar."}] },
-        "fase_4_fim": { "texto": "A tua influência convence até os mais céticos. O admin 'Cygnus', que só acreditava no código, agora vê o teu plano. Ele tem o quarto fragmento.", "opcoes": [{"texto": "Irei falar com ele."}] },
-        "fase_5_inicio": { "texto": "Este é o teste final. A rede precisa de 5 pontos de apoio firmes. Consegue a Confiança de 5 contactos no total.", "opcoes": [{"texto": "Pela verdade."}] },
-        "fase_5_fim": { "texto": "Tornaste-te um pilar nesta rede de resistência. Procura 'Vex', o nosso admin final. Ele entregar-te-á o último fragmento da chave.", "opcoes": [{"texto": "A missão está quase no fim."}] },
-        "fase_final_espera": { "texto": "Reuniste a chave, mas para aceder ao mainframe, a rede precisa de estar em harmonia. A Influência média de todos deve superar 80% para que o 'Nexus' te dê acesso.", "opcoes": [{"texto": "Vamos estabilizar a rede."}] },
-        "fase_final_pronto": { "texto": "A rede está sincronizada. O mainframe 'Nexus' abriu uma porta para ti. Leva a chave e expõe a verdade.", "opcoes": [{"texto": "É a hora."}] }
+        "saudacao": "Sinal recebido, {jogador_nome}. A tua coragem em responder já te diferencia. Escuta com atenção.",
+        "fase_1_inicio": {
+            "texto": "A rede está cheia de contactos desiludidos. Precisamos deles. O teu primeiro alvo é 'byte', um programador talentoso mas cético. Aumenta a Confiança dele para provares o teu valor. Para começar, usa o comando 'falar byte'.",
+            "opcoes": [
+                {
+                    "texto": "Considera-o feito."
+                }
+            ]
+        },
+        "fase_1_fim": {
+            "texto": "Bom trabalho. 'byte' está do nosso lado. Um novo nó de confiança foi criado. Procura a admin 'aria'. Ela tem o primeiro fragmento da chave do Dossier Fantasma.",
+            "opcoes": [
+                {
+                    "texto": "Vou encontrá-la."
+                }
+            ]
+        },
+        "fase_2_inicio": {
+            "texto": "A tua influência cresce, mas a vigilância do ICE também. Precisamos de mais aliados. Consegue a Confiança de 2 contactos no total e volta.",
+            "opcoes": [
+                {
+                    "texto": "Assim será feito."
+                }
+            ]
+        },
+        "fase_2_fim": {
+            "texto": "Excelente. A tua reputação espalha-se. Procura 'jaxx', o admin que vive nos arquivos mortos. Ele tem o segundo fragmento.",
+            "opcoes": [
+                {
+                    "texto": "A caminho."
+                }
+            ]
+        },
+        "fase_3_inicio": {
+            "texto": "Três aliados são uma célula de resistência. Recruta mais um. Precisamos de 3 contactos com 80% de Confiança.",
+            "opcoes": [
+                {
+                    "texto": "A rede vai expandir-se."
+                }
+            ]
+        },
+        "fase_3_fim": {
+            "texto": "Impressionante. A tua determinação é uma arma. Vai até 'kael', o admin que já trabalhou para o ICE. Ele guarda o terceiro fragmento.",
+            "opcoes": [
+                {
+                    "texto": "Entendido."
+                }
+            ]
+        },
+        "fase_4_inicio": {
+            "texto": "O ICE sente a nossa presença. Precisamos de mais nós seguros. Eleva um total de 4 contactos para 80%.",
+            "opcoes": [
+                {
+                    "texto": "Eles não nos vão parar."
+                }
+            ]
+        },
+        "fase_4_fim": {
+            "texto": "A tua influência convence até os mais céticos. O admin 'cygnus', que só acreditava no código, agora vê o teu plano. Ele tem o quarto fragmento.",
+            "opcoes": [
+                {
+                    "texto": "Irei falar com ele."
+                }
+            ]
+        },
+        "fase_5_inicio": {
+            "texto": "Este é o teste final. A rede precisa de 5 pontos de apoio firmes. Consegue a Confiança de 5 contactos no total.",
+            "opcoes": [
+                {
+                    "texto": "Pela verdade."
+                }
+            ]
+        },
+        "fase_5_fim": {
+            "texto": "Tornaste-te um pilar nesta rede de resistência. Procura 'vex', o nosso admin final. Ele entregar-te-á o último fragmento da chave.",
+            "opcoes": [
+                {
+                    "texto": "A missão está quase no fim."
+                }
+            ]
+        },
+        "fase_final_espera": {
+            "texto": "Reuniste a chave, mas para aceder ao mainframe, a rede precisa de estar em harmonia. A Influência média de todos deve superar 80% para que o 'Nexus' te dê acesso.",
+            "opcoes": [
+                {
+                    "texto": "Vamos estabilizar a rede."
+                }
+            ]
+        },
+        "fase_final_pronto": {
+            "texto": "A rede está sincronizada. O mainframe 'Nexus' abriu uma porta para ti. Leva a chave e expõe a verdade.",
+            "opcoes": [
+                {
+                    "texto": "É a hora."
+                }
+            ]
+        }
     }
 }

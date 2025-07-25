@@ -155,13 +155,9 @@ export class SoundService {
   }
   
   private tocarMusicaAbertura(): void {
-    console.log("A iniciar música de abertura longa...");
-
-    const duracaoTotal = 38500; // Duração total em milissegundos
-    const inicioClimax = duracaoTotal - 3000; // Clímax começa 3s antes do fim
+    console.log("Iniciando música de abertura...");
 
     // --- 0.0s: Animação "Power On" (Duração: 2.5s) ---
-    // Mantém-se igual: efeito de som ascendente.
     for (let i = 0; i < 25; i++) {
         setTimeout(() => {
             const freq = 50 + (i * 20);
@@ -169,62 +165,49 @@ export class SoundService {
         }, i * 100);
     }
 
-    // --- 2.5s: Início do Drone Sombrio ---
-    // A nota de base agora dura até ao clímax.
+    // --- 2.5s: Início da Pausa (Duração: 2.0s) ---
     setTimeout(() => {
-        const duracaoDrone = (inicioClimax - 2500) / 1000;
-        this.tocarSom(32.70, duracaoDrone, 'sine', 0.6); // C1 grave
+        this.tocarSom(32.70, 17, 'sine', 0.6);
     }, 2500);
 
-    // --- 4.5s: Início da Linha de Baixo ---
-    // A linha de baixo agora repete por um período mais longo.
-    setTimeout(() => {
-        const BPM = 150;
-        const duracaoOitavo = (60 / BPM) / 2;
-        const baixo = [{ n: 65.41, d: 2 }, { n: 98.00, d: 2 }, { n: 103.83, d: 4 }];
-        const duracaoPadrao = duracaoOitavo * 8 * 1000;
-        const repeticoes = Math.floor((inicioClimax - 4500) / duracaoPadrao);
+    // --- 4.5s: Início da Digitação do Texto (Duração: 15s) ---
+    const BPM = 150;
+    const duracaoOitavo = (60 / BPM) / 2;
 
-        for (let i = 0; i < repeticoes; i++) {
-            const delayBase = i * duracaoPadrao;
+    // CAMADA 1: Linha de Baixo (Começa aos 4.5s)
+    setTimeout(() => {
+        const baixo = [{ n: 65.41, d: 2 }, { n: 98.00, d: 2 }, { n: 103.83, d: 4 }];
+        for (let i = 0; i < 9; i++) {
+            const delayBase = i * (duracaoOitavo * 8 * 1000);
             setTimeout(() => this.tocarSom(baixo[0].n, duracaoOitavo * baixo[0].d, 'triangle', 0.5), delayBase);
             setTimeout(() => this.tocarSom(baixo[1].n, duracaoOitavo * baixo[1].d, 'triangle', 0.5), delayBase + (duracaoOitavo * 2 * 1000));
             setTimeout(() => this.tocarSom(baixo[2].n, duracaoOitavo * baixo[2].d, 'triangle', 0.5), delayBase + (duracaoOitavo * 4 * 1000));
         }
     }, 4500);
 
-    // --- 9.5s: Início da Harmonia Sustentada ---
-    // A harmonia também dura até ao clímax.
+    // CAMADA 2: Harmonia Sustentada (Começa aos 9.5s)
     setTimeout(() => {
-        const duracaoHarmonia = (inicioClimax - 9500) / 1000;
-        this.tocarSom(155.56, duracaoHarmonia, 'sine', 0.3); // Eb3 melancólico
+        this.tocarSom(155.56, 10, 'sine', 0.3);
     }, 9500);
     
-    // --- 14.5s: Início do Contra-ritmo Urgente ---
-    // O contra-ritmo agora toca por muito mais tempo, aumentando a tensão.
+    // CAMADA 3: Contra-ritmo Urgente (Começa aos 14.5s)
     setTimeout(() => {
-        const BPM = 150;
-        const duracaoOitavo = (60 / BPM) / 2;
-        const tempoEntreNotas = duracaoOitavo * 2 * 1000;
-        const repeticoes = Math.floor((inicioClimax - 14500) / tempoEntreNotas);
-
-        for (let i = 0; i < repeticoes; i++) {
+        for (let i = 0; i < 10; i++) {
              setTimeout(() => {
-                 this.tocarSom(261.63, duracaoOitavo * 0.5, 'square', 0.2); // C4
-             }, i * tempoEntreNotas);
+                 this.tocarSom(261.63, duracaoOitavo * 0.5, 'square', 0.2);
+             }, i * (duracaoOitavo * 2 * 1000));
         }
     }, 14500);
 
 
-    // --- ~35.5s: Clímax Final (Duração: 3.0s) ---
-    // Toca um acorde final que se desvanece até ao fim da animação.
+    // --- 19.5s: Início da Pausa Final (Duração: 3.0s) ---
     setTimeout(() => {
         console.log("Clímax da música e fade out...");
         const volumeFinal = 0.7;
-        const duracaoFade = 2.8;
+        const duracaoFade = 2.5;
         this.tocarSom(130.81, duracaoFade, 'triangle', volumeFinal); // C3
         this.tocarSom(155.56, duracaoFade, 'triangle', volumeFinal); // Eb3
         this.tocarSom(196.00, duracaoFade, 'triangle', volumeFinal); // G3
-    }, inicioClimax);
+    }, 19500);
   }
 }

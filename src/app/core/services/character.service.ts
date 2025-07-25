@@ -192,6 +192,7 @@ export class CharacterService {
         gameData.orientacao_inicial_frases.forEach((frase: string) => this.stateSvc.addLog(frase, 'log-sistema'));
       }
       this.stateSvc.addLog(`[ORÁCULO]: ${saudacao}`, this.getNpcColor(gameData.personagens_base.oraculo));
+      this.iniciarDialogoFixo('oraculo', gameData.personagens_base.oraculo);
     }, 0);
   }
   

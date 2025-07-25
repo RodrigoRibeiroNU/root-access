@@ -13,17 +13,11 @@ export class OpeningComponent implements OnInit, OnDestroy {
   @Output() openingComplete = new EventEmitter<void>();
 
   introText = [
-    'A OmniCorp controla o mundo.',
-    'Nas ruas e na rede, a liberdade é uma palavra esquecida.',
-    'A informação é a nova moeda, e a corporação vigia cada byte',
-    'com os seus sistemas de segurança, o ICE.',
-    'Mas nas sombras da darknet, dissidentes ainda resistem',
-    'a partir de terminais anónimos.',
-    'Um contacto, o "Oráculo", procura agentes para expor a verdade.',
-    'O alvo: o "Dossier Fantasma", um ficheiro encriptado',
-    'cuja chave de desencriptação foi dividida em fragmentos.',
-    'Você é o mais recente recruta.',
-    'A sua missão: reunir os fragmentos e derrubar o sistema.',
+    'A rede está sob o controlo da OmniCorp.',
+    'A liberdade é uma memória distante, um eco na estática.',
+    'Mas nas sombras, um sinal de origem desconhecida chama por agentes.',
+    'Você atendeu à chamada.',
+    'A sua missão: encontrar o "Dossier Fantasma" e expor a verdade.',
     'A sua operação começa agora.'
   ];
 

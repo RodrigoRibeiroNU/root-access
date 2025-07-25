@@ -13,7 +13,7 @@
       <div id="status-bar" *ngIf="gameState.nome_jogador_global && gameState.nome_jogador_global !== 'PENDING'">
         <div id="status-heroi">
           Usuário: <span id="player-name">{{ getPlayerDisplayName() }}</span>
-          (Fé: <span id="player-faith">{{ gameState.heroi_influencia_percent.toFixed(0) }}</span>%)
+          (Infuência: <span id="player-faith">{{ gameState.heroi_influencia_percent.toFixed(0) }}</span>%)
         </div>
         <div id="status-objetivo">Objetivo: <span id="current-objective">{{ flowSvc.getCurrentObjectiveText() }}</span></div>
         <div id="status-pistas">Pistas: <span id="pistas-count">{{ gameState.fragmentos_chave.length }}</span></div>
