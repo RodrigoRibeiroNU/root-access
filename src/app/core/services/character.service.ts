@@ -193,7 +193,7 @@ export class CharacterService {
       }
       this.stateSvc.addLog(`[ORÁCULO]: ${saudacao}`, this.getNpcColor(gameData.personagens_base.oraculo));
       this.iniciarDialogoFixo('oraculo', gameData.personagens_base.oraculo);
-    }, 0);
+    }, 500);
   }
   
   public processarInteracaoConfianca(npcState: NpcData, npcName: string, efeitoDialogo: number = 0, efeitoInfluenciaHeroi: number = 0): boolean {
