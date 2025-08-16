@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { GameState, NpcData, LogLine, GameView } from '../models/game.interfaces';
 import packageInfo from '../../../../package.json';
+import { LanguageService } from './language.service'; // Importar o LanguageService
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class GameStateService {
 
   public gameData: any = {};
 
-  constructor() { }
+  constructor(private langSvc: LanguageService) { } // Injetar o LanguageService
 
   public getInitialGameState(): GameState {
     return JSON.parse(JSON.stringify(this.initialGameState));
@@ -55,20 +56,18 @@ export class GameStateService {
 
     if (nextState.fase_atual > currentState.fase_atual) {
       nextState.ping_sweep_usado_no_setor = false;
-      this.addLog('[SISTEMA]: O teu software "Ping Sweep" foi recarregado para este novo setor da rede.', 'log-positivo');
+      this.addLog(this.langSvc.getString('system_messages.ping_sweep_recharged'), 'log-positivo');
     }
 
     this._gameState.next(nextState);
   }
 
   public addLog(text: string, className: string = '') {
-    const LARGURA_MAXIMA_TERMINAL = 90; // Ajusta este valor conforme o design do teu terminal
+    const LARGURA_MAXIMA_TERMINAL = 90;
     const currentLog = this._terminalLog.getValue();
     const newLines: LogLine[] = [];
 
-    // Remove a tag de parágrafo se ela já existir para evitar aninhamento
     const cleanText = text.replace(/<\/?p>/g, '');
-
     const wrappedLines = this.wordWrap(cleanText, LARGURA_MAXIMA_TERMINAL);
     
     wrappedLines.forEach(line => {
@@ -134,10 +133,10 @@ export class GameStateService {
           }
           
           this.setGameState({ personagens_atuais: personagensRecarregados });
-          this.addLog("Transmissão carregada com sucesso a partir do ficheiro!", 'log-positivo');
+          this.addLog(this.langSvc.getString('system_messages.load_file_success'), 'log-positivo');
         }
       } catch (error) {
-        this.addLog("Erro: O ficheiro de save parece estar corrompido ou tem um formato inválido.", 'log-negativo');
+        this.addLog(this.langSvc.getString('system_messages.load_file_error'), 'log-negativo');
       }
     };
     reader.readAsText(file);
@@ -153,17 +152,15 @@ export class GameStateService {
     let currentLine = '';
 
     for (const word of words) {
-      // Verifica se a palavra sozinha excede o limite (caso extremo)
       if (word.length > maxWidth) {
         if (currentLine.length > 0) {
           lines.push(currentLine);
         }
-        lines.push(word); // Adiciona a palavra longa numa linha própria
+        lines.push(word);
         currentLine = '';
         continue;
       }
 
-      // Verifica se adicionar a próxima palavra excede o limite
       if ((currentLine + ' ' + word).trim().length > maxWidth) {
         lines.push(currentLine);
         currentLine = word;
@@ -195,9 +192,9 @@ export class GameStateService {
     const url = window.URL.createObjectURL(dataBlob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `noterminal_save_${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = `root-access_save_${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     window.URL.revokeObjectURL(url);
-    this.addLog("Ficheiro de save encriptado. Verifique os seus downloads.", 'log-positivo');
+    this.addLog(this.langSvc.getString('system_messages.save_file_generated'), 'log-positivo');
   }
 }

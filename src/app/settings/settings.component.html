@@ -1,25 +1,35 @@
 <div id="settings-container">
-    <div class="settings-box">
-        <h1>[ Configurações de Áudio ]</h1>
+  <div class="settings-box">
+    <h1>{{ langSvc.getString('ui.settings_title') }}</h1>
 
-        <div class="settings-options">
-            <div class="option">
-                <input type="checkbox" id="geral" [(ngModel)]="geralHabilitado">
-                <label for="geral">Habilitar Áudio Geral</label>
-            </div>
-            <div class="option">
-                <input type="checkbox" id="musica" [(ngModel)]="musicaHabilitada" [disabled]="!geralHabilitado">
-                <label for="musica">Habilitar Músicas</label>
-            </div>
-            <div class="option">
-                <input type="checkbox" id="sfx" [(ngModel)]="sfxHabilitado" [disabled]="!geralHabilitado">
-                <label for="sfx">Habilitar Efeitos Sonoros (SFX)</label>
-            </div>
-        </div>
+    <div class="settings-options">
+      <div class="option">
+        <label for="geral">{{ langSvc.getString('ui.settings_audio_general') }}</label>
+        <input type="checkbox" id="geral" [(ngModel)]="geralHabilitado">
+      </div>
+      <div class="option">
+        <label for="musica">{{ langSvc.getString('ui.settings_audio_music') }}</label>
+        <input type="checkbox" id="musica" [(ngModel)]="musicaHabilitada" [disabled]="!geralHabilitado">
+      </div>
+      <div class="option">
+        <label for="sfx">{{ langSvc.getString('ui.settings_audio_sfx') }}</label>
+        <input type="checkbox" id="sfx" [(ngModel)]="sfxHabilitado" [disabled]="!geralHabilitado">
+      </div>
 
-        <div class="button-group">
-            <button (click)="salvarConfiguracoes()">Salvar e Voltar</button>
-            <button (click)="voltar()">Voltar</button>
-        </div>
+      <hr>
+
+      <div class="option">
+        <label for="language">{{ langSvc.getString('ui.language_selector_label') }}</label>
+        <select id="language" [(ngModel)]="idiomaSelecionado">
+          <option value="pt-br">{{ langSvc.getString('ui.language_pt_br') }}</option>
+          <option value="en-us">{{ langSvc.getString('ui.language_en_us') }}</option>
+        </select>
+      </div>
     </div>
+
+    <div class="button-group">
+      <button (click)="salvarConfiguracoes()">{{ langSvc.getString('ui.settings_save') }}</button>
+      <button (click)="voltar()">{{ langSvc.getString('ui.settings_back') }}</button>
+    </div>
+  </div>
 </div>

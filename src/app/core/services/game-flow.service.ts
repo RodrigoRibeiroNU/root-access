@@ -3,12 +3,17 @@ import { GameStateService } from './game-state.service';
 import { LogLine, NpcData } from '../models/game.interfaces';
 import packageInfo from '../../../../package.json';
 import { SoundService } from './sound.service';
+import { LanguageService } from './language.service'; // Importar o LanguageService
 
 @Injectable({
     providedIn: 'root'
 })
 export class GameFlowService {
-    constructor(private stateSvc: GameStateService, private soundSvc: SoundService) { }
+    constructor(
+        private stateSvc: GameStateService, 
+        private soundSvc: SoundService,
+        private langSvc: LanguageService // Injetar o LanguageService
+    ) { }
 
     public initialize() {
         this.stateSvc.setGameState({ current_view: 'title' });
@@ -29,7 +34,7 @@ export class GameFlowService {
             nome_jogador_global: 'PENDING'
         });
         this.stateSvc.clearLog();
-        this.stateSvc.addLog("Iniciando nova operação...", 'log-sistema');
+        this.stateSvc.addLog(this.langSvc.getString('system_messages.new_operation_starting'), 'log-sistema');
     }
     
     public startGameplayMusic() {
@@ -61,6 +66,14 @@ export class GameFlowService {
 
     private showMainMenuText() {
         this.stateSvc.clearLog();
+
+        // Constrói a linha de comandos dinamicamente
+        const cmdNovo = this.langSvc.getString('ui.command_new');
+        const cmdCarregar = this.langSvc.getString('ui.command_load');
+        const cmdConfig = this.langSvc.getString('ui.command_config');
+        const cmdSair = this.langSvc.getString('ui.command_exit');
+        const commandLine = `  |                                 [${cmdNovo}] [${cmdCarregar}] [${cmdConfig}] [${cmdSair}]                                 |`;
+
         const menuScreen: LogLine[] = [
             { text: ``, className: 'log-sistema' },
             { text: `  +--------------------------------------------------------------------------------------------------+`, className: 'log-sistema' },
@@ -88,11 +101,10 @@ export class GameFlowService {
             { text: `  |                                       ::##  ####++##  ####                                       |`, className: 'log-heroi' },
             { text: `  |                                               --..                                               |`, className: 'log-heroi' },
             { text: `  |                                                                                                  |`, className: 'log-sistema' },
-            { text: `  |                               [novo]  [carregar]  [config]  [sair]                                |`, className: 'log-sistema' },
-            { text: `  +--------------------------------------------------------------------------------------------------+`, className: 'log-sistema' },
+            { text: commandLine, className: 'log-sistema' },             { text: `  +--------------------------------------------------------------------------------------------------+`, className: 'log-sistema' },
             { text: ``, className: 'log-sistema' },
-            { text: `   Versão ${packageInfo.version}`, className: 'log-sistema' },
-            { text: `   Digite um comando para continuar.`, className: 'log-sistema' }
+            { text: `   ${this.langSvc.getString('ui.title_screen_version')} ${packageInfo.version}`, className: 'log-sistema' },
+            { text: `   ${this.langSvc.getString('ui.main_menu_prompt')}`, className: 'log-sistema' }
         ];
 
         this.stateSvc.addLogBlock(menuScreen);
@@ -101,11 +113,12 @@ export class GameFlowService {
     public getCurrentObjectiveText(): string {
         const gameState = this.stateSvc.gameState;
         const gameData = this.stateSvc.gameData;
+        const fallbackText = this.langSvc.getString('objectives.fallback');
         if (!gameData?.fases_jogo || !gameState || gameState.game_over) return "";
 
         const phaseKey = `fase_${gameState.fase_atual}`;
         const phaseData = gameData.fases_jogo[phaseKey];
-        if (!phaseData) return "Verdade exposta. Missão cumprida.";
+        if (!phaseData) return fallbackText;
 
         let objetivoIndex;
         if (gameState.fase_atual < 6) {
@@ -113,23 +126,23 @@ export class GameFlowService {
                 ? phaseData.objetivo_lider_indice
                 : phaseData.objetivo_conversao_indice;
         } else {
-            const avgFaith = this.getAverageFaith();
-            objetivoIndex = avgFaith > 80
+            const avgInfluence = this.getAverageInfluence();
+            objetivoIndex = avgInfluence > 80
                 ? phaseData.objetivo_final_indice
                 : phaseData.objetivo_espera_indice;
         }
 
-        return gameData.objetivos[objetivoIndex] || "Verdade exposta. Missão cumprida.";
+        return gameData.objetivos[objetivoIndex] || fallbackText;
     }
 
     public getCurrentPromptText(): string {
         const state = this.stateSvc.gameState;
         if (!state) return '>';
         if (state.pending_action?.item === 'rootkit') {
-            return 'Alvo:';
+            return this.langSvc.getString('ui.prompt_target');
         }
         if (state.nome_jogador_global === 'PENDING') {
-            return 'Codinome:';
+            return this.langSvc.getString('ui.prompt_codename');
         }
         return '>';
     }
@@ -145,15 +158,15 @@ export class GameFlowService {
             this.stateSvc.addLog(customMessage || this.stateSvc.gameData.finais.fe_baixa, 'log-negativo');
         }
         this.stateSvc.setGameState({ game_over: true, dialogo_atual: null, current_view: 'ending' });
-        localStorage.removeItem('redencao_autosave');
+        localStorage.removeItem('autosave_root-access');
     }
 
-    public getAverageFaith(): number {
+    public getAverageInfluence(): number {
         const gameState = this.stateSvc.gameState;
         const personagens = Object.values(gameState.personagens_atuais);
         if (personagens.length === 0) return gameState.heroi_influencia_percent;
-        const totalFaith = personagens.reduce((sum, p) => sum + p.fe, gameState.heroi_influencia_percent);
-        return totalFaith / (personagens.length + 1);
+        const totalInfluence = personagens.reduce((sum, p) => sum + p.fe, gameState.heroi_influencia_percent);
+        return totalInfluence / (personagens.length + 1);
     }
 
     public checkPhaseCompletion() {
@@ -170,7 +183,7 @@ export class GameFlowService {
 
         if (convertidos >= phaseData.conversao_necessaria) {
             this.stateSvc.setGameState({ objetivo_fase_concluido: true });
-            this.stateSvc.addLog(`[SISTEMA] Objetivo de influência concluído! Reporte ao Oráculo para a próxima diretiva.`, 'log-positivo');
+            this.stateSvc.addLog(this.langSvc.getString('system_messages.objective_complete'), 'log-positivo');
         }
     }
 
@@ -186,7 +199,7 @@ export class GameFlowService {
                 const baseNpcData = gameState.all_characters_in_game_pool[npcName];
                 if (baseNpcData) {
                     personagensAtuais[npcName] = JSON.parse(JSON.stringify(baseNpcData));
-                    this.stateSvc.addLog(`${npcName.toUpperCase()} está online.`, 'log-sistema');
+                    this.stateSvc.addLog(this.langSvc.getString('system_messages.contact_now_online', npcName.toUpperCase()), 'log-sistema');
                 }
             }
         });
@@ -206,7 +219,7 @@ export class GameFlowService {
                 if (baseNpcData) {
                     personagensAtuais[liderName] = JSON.parse(JSON.stringify(baseNpcData));
                     this.stateSvc.setGameState({ personagens_atuais: personagensAtuais });
-                    this.stateSvc.addLog(`[SISTEMA]: O admin ${liderName.toUpperCase()} está agora acessível na rede.`, 'log-positivo');
+                    this.stateSvc.addLog(this.langSvc.getString('system_messages.admin_now_accessible', liderName.toUpperCase()), 'log-positivo');
                 }
             }
         }

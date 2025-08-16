@@ -12,6 +12,7 @@ import { CharacterService } from './core/services/character.service';
 // --- INTERFACES ---
 import { LogLine, GameState } from './core/models/game.interfaces';
 import { DataLoaderService } from './core/services/data-loader.service';
+import { LanguageService } from './core/services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -42,7 +43,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private inactivitySvc: InactivityService,
     public flowSvc: GameFlowService, // Público para ser usado no template
     public characterSvc: CharacterService, // Público para ser usado no template
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public langSvc: LanguageService 
   ) {
     this.terminalLog$ = this.gameStateSvc.terminalLog$;
     this.gameState$ = this.gameStateSvc.gameState$;
@@ -50,9 +52,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.dataLoader.loadGameData().subscribe(gameData => {
-      this.gameStateSvc.gameData = gameData;
-      this.flowSvc.initialize();
+    // 1. Carrega o idioma primeiro
+    const initialLang = this.langSvc.getInitialLanguage();
+    this.langSvc.loadLanguage(initialLang).subscribe(() => {
+      // 2. Depois que o idioma estiver pronto, carrega o resto dos dados
+      this.dataLoader.loadGameData().subscribe(gameData => {
+        this.gameStateSvc.gameData = gameData;
+        this.flowSvc.initialize();
+      });
     });
 
     this.fileUploadSub = this.gameStateSvc.fileUploadTrigger$.subscribe(() => {

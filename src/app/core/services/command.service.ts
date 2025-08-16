@@ -5,6 +5,7 @@ import { CharacterService } from './character.service';
 import { ItemService } from './item.service';
 import { InactivityService } from './inactivity.service';
 import { SoundService } from './sound.service';
+import { LanguageService } from './language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +13,39 @@ import { SoundService } from './sound.service';
 export class CommandService {
   private audioInitialized = false; 
 
+  private readonly commandMap: Map<string, Function> = new Map([
+    ['new', () => this.flowSvc.startOpeningSequence()],
+    ['help', () => this.stateSvc.addLog(this.langSvc.getString('commands.help_list'), 'log-positivo')],
+    ['online', () => this.listarContactosOnline()],
+    ['keys', () => this.listarFragmentosChave()],
+    ['inventory', () => this.listarInventario()],
+    ['talk', () => this.characterSvc.iniciarDialogo(this.getArgumento())],
+    ['answer', () => this.characterSvc.processarRespostaDialogo(this.getComandoOriginal())],
+    ['save', () => this.stateSvc.exportSaveToFile()],
+    ['load', () => this.stateSvc.triggerFileUpload()],
+    ['config', () => this.flowSvc.abrirConfiguracoes()],
+    ['use', () => this.itemSvc.usarItem(this.getArgumento())],
+    ['exit', () => this.flowSvc.resetGame()]
+  ]);
+  
+  private comandoOriginal = '';
+  private argumento = '';
+
   constructor(
     private stateSvc: GameStateService,
     private flowSvc: GameFlowService,
     private characterSvc: CharacterService,
     private itemSvc: ItemService,
     private inactivitySvc: InactivityService,
-    private soundSvc: SoundService
+    private soundSvc: SoundService,
+    private langSvc: LanguageService
   ) { }
 
+  private getComandoOriginal(): string { return this.comandoOriginal; }
+  private getArgumento(): string { return this.argumento; }
+
   private normalizeString(str: string): string {
-    return str
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u00e0-\u00e5\u00e8-\u00eb\u00ec-\u00ef\u00f2-\u00f6\u00f9-\u00fc\u00fd\u00ff]/g, "a");
+    return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
 
   private initializeAudio() {
@@ -37,13 +57,14 @@ export class CommandService {
 
   public processCommand(command: string) {
     this.initializeAudio();
+    this.comandoOriginal = command;
 
     const gameState = this.stateSvc.gameState;
     if (gameState.game_over) return;
 
     if (gameState.pending_action) {
       if (gameState.pending_action.item === 'rootkit') {
-        this.itemSvc.usarEscrituraNoAlvo(command);
+        this.itemSvc.usarRootkitNoAlvo(command);
       }
       return;
     }
@@ -57,33 +78,32 @@ export class CommandService {
 
     const normalizedCommand = this.normalizeString(command);
     const parts = normalizedCommand.split(' ');
-    const acao = parts[0];
-    const argumento = parts.slice(1).join(' ');
+    const acaoDigitada = parts[0];
+    this.argumento = parts.slice(1).join(' ');
 
-    if (gameState.dialogo_atual && acao !== 'responder') {
-      this.stateSvc.addLog("Use 'responder [num]' para continuar a transmissão.", 'log-sistema');
+    // --- CORRIGIDO AQUI ---
+    const comandosTraduzidos = this.langSvc.getTranslationObject('commands');
+    let acaoEncontrada: string | null = null;
+
+    for (const key in comandosTraduzidos) {
+      if (comandosTraduzidos[key] === acaoDigitada) {
+        acaoEncontrada = key;
+        break;
+      }
+    }
+
+    if (gameState.dialogo_atual && acaoEncontrada !== 'answer') {
+      this.stateSvc.addLog(this.langSvc.getString('system_messages.must_answer'), 'log-sistema');
       return;
     }
 
-    const comandos: { [key: string]: Function } = {
-      "novo": () => this.flowSvc.startOpeningSequence(),
-      "ajuda": () => this.stateSvc.addLog("Comandos: falar, usar, online, chaves, inventario, salvar, carregar, config, sair", 'log-positivo'),
-      "online": () => this.listarPersonagensOnline(),
-      "chaves": () => this.listarPistas(),
-      "inventario": () => this.listarInventario(),
-      "falar": () => this.characterSvc.iniciarDialogo(argumento),
-      "responder": () => this.characterSvc.processarRespostaDialogo(command),
-      "salvar": () => this.stateSvc.exportSaveToFile(),
-      "carregar": () => this.stateSvc.triggerFileUpload(),
-      "config": () => this.flowSvc.abrirConfiguracoes(),
-      "usar": () => this.itemSvc.usarItem(argumento),
-      "sair": () => this.flowSvc.resetGame()
-    };
-
-    if (comandos[acao]) {
-      comandos[acao]();
+    if (acaoEncontrada && this.commandMap.has(acaoEncontrada)) {
+      const funcaoDoComando = this.commandMap.get(acaoEncontrada);
+      if (funcaoDoComando) {
+        funcaoDoComando();
+      }
     } else {
-      this.stateSvc.addLog(`Comando inválido: ${acao}. Sinal perdido.`, 'log-negativo');
+      this.stateSvc.addLog(this.langSvc.getString('system_messages.command_invalid', acaoDigitada), 'log-negativo');
       this.soundSvc.playSfx('corrupcao');
     }
 
@@ -92,20 +112,20 @@ export class CommandService {
     }
   }
 
-  private listarPersonagensOnline(): void {
+  private listarContactosOnline(): void {
     const gameState = this.stateSvc.gameState;
-    this.stateSvc.addLog("Contactos online:", 'log-sistema');
+    this.stateSvc.addLog(this.langSvc.getString('system_messages.online_contacts'), 'log-sistema');
     Object.entries(gameState.personagens_atuais).forEach(([name, data]) => {
-      const feStr = `(Confiança: ${data.fe.toFixed(0)}%)`;
-      this.stateSvc.addLog(`- ${name.toUpperCase()} ${feStr}`, this.characterSvc.getNpcColor(data));
+      const confiancaStr = `(${this.langSvc.getString('ui.status_bar_influence')}: ${data.fe.toFixed(0)}%)`;
+      this.stateSvc.addLog(`- ${name.toUpperCase()} ${confiancaStr}`, this.characterSvc.getNpcColor(data));
     });
   }
 
-  private listarPistas(): void {
+  private listarFragmentosChave(): void {
     const gameState = this.stateSvc.gameState;
-    this.stateSvc.addLog("Fragmentos da chave adquiridos:", 'log-sistema');
+    this.stateSvc.addLog(this.langSvc.getString('system_messages.key_fragments_acquired'), 'log-sistema');
     if (gameState.fragmentos_chave.length === 0) {
-        this.stateSvc.addLog("Nenhum fragmento encontrado.", 'log-sistema');
+        this.stateSvc.addLog(this.langSvc.getString('system_messages.no_fragments_found'), 'log-sistema');
         return;
     }
     gameState.fragmentos_chave.forEach(pista => this.stateSvc.addLog(`- ${pista}`, 'log-positivo'));
@@ -114,12 +134,12 @@ export class CommandService {
   private listarInventario(): void {
     const gameState = this.stateSvc.gameState;
     const gameData = this.stateSvc.gameData;
-    this.stateSvc.addLog("Software no inventário:", 'log-sistema');
+    this.stateSvc.addLog(this.langSvc.getString('system_messages.inventory_software'), 'log-sistema');
     
     const itensDoInventario = Object.keys(gameState.heroi_inventory);
 
     if (itensDoInventario.every(key => gameState.heroi_inventory[key] === 0)) {
-        this.stateSvc.addLog("Nenhum software disponível.", 'log-sistema');
+        this.stateSvc.addLog(this.langSvc.getString('system_messages.no_software_available'), 'log-sistema');
         return;
     }
 

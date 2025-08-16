@@ -3,6 +3,7 @@ import { GameStateService } from './game-state.service';
 import { GameFlowService } from './game-flow.service';
 import { NpcData, LogLine } from '../models/game.interfaces';
 import { SoundService } from './sound.service';
+import { LanguageService } from './language.service'; // Importar o LanguageService
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class CharacterService {
   constructor(
     private stateSvc: GameStateService,
     private flowSvc: GameFlowService,
-    private soundSvc: SoundService
+    private soundSvc: SoundService,
+    private langSvc: LanguageService // Injetar o LanguageService
   ) { }
 
   public iniciarDialogo(npcName: string) {
@@ -21,7 +23,7 @@ export class CharacterService {
     const npcData = gameState.personagens_atuais[npcKey];
 
     if (!npcData) {
-      this.stateSvc.addLog("[SISTEMA]: Contacto não encontrado na rede.", 'log-negativo');
+      this.stateSvc.addLog(this.langSvc.getString('system_messages.contact_not_found'), 'log-negativo');
       return;
     }
 
@@ -61,13 +63,13 @@ export class CharacterService {
       if (faseAtual < 6) {
         dialogoKey = gameState.objetivo_fase_concluido ? `fase_${faseAtual}_fim` : `fase_${faseAtual}_inicio`;
       } else {
-        dialogoKey = this.flowSvc.getAverageFaith() > 80 ? 'fase_final_pronto' : 'fase_final_espera';
+        dialogoKey = this.flowSvc.getAverageInfluence() > 80 ? 'fase_final_pronto' : 'fase_final_espera';
       }
     }
     
     if (npcData.tipo === 'sabio') {
-        if (this.flowSvc.getAverageFaith() <= 80) {
-            this.stateSvc.addLog("[SISTEMA]: O mainframe 'Nexus' está protegido por firewalls ativas. Aumente a sua influência na rede.", 'log-negativo');
+        if (this.flowSvc.getAverageInfluence() <= 80) {
+            this.stateSvc.addLog(this.langSvc.getString('system_messages.nexus_firewall_active'), 'log-negativo');
             return;
         }
         this.stateSvc.setGameState({ fase_final_iniciada: true });
@@ -79,7 +81,7 @@ export class CharacterService {
   private setDialogoAtual(npcName: string, dialogo: any) {
     const npcData = this.stateSvc.gameState.personagens_atuais[npcName];
     if (!dialogo || !dialogo.texto) {
-      this.stateSvc.addLog(`[SISTEMA]: ${npcName.toUpperCase()} terminou a comunicação.`, 'log-sistema');
+      this.stateSvc.addLog(this.langSvc.getString('system_messages.contact_no_reply', npcName.toUpperCase()), 'log-sistema');
       this.stateSvc.setGameState({ dialogo_atual: null });
       return;
     }
@@ -94,7 +96,7 @@ export class CharacterService {
       this.stateSvc.setGameState({ dialogo_atual: { npc: npcName, opcoes: dialogo.opcoes } });
       dialogo.opcoes.forEach((opt: any, i: number) => {
         if (opt.requer_pista && !this.stateSvc.gameState.fragmentos_chave.includes(opt.requer_pista)) {
-          this.stateSvc.addLog(`  ${i + 1}. [Fragmento de Chave Necessário]`, 'log-sistema');
+          this.stateSvc.addLog(`  ${i + 1}. ${this.langSvc.getString('system_messages.key_fragment_needed')}`, 'log-sistema');
         } else {
           this.stateSvc.addLog(`  ${i + 1}. ${opt.texto}`, 'log-heroi');
         }
@@ -117,7 +119,7 @@ export class CharacterService {
 
         this.stateSvc.setGameState({ heroi_inventory: inventarioAtual });
         const nomeItem = this.stateSvc.gameData.itens[itemKey].nome;
-        this.stateSvc.addLog(`[SISTEMA]: Você adquiriu '${nomeItem}'! (Total: ${inventarioAtual[itemKey]})`, 'log-positivo');
+        this.stateSvc.addLog(this.langSvc.getString('system_messages.item_received', nomeItem, inventarioAtual[itemKey].toString()), 'log-positivo');
         this.soundSvc.playSfx('sucesso');
     }
 
@@ -159,7 +161,7 @@ export class CharacterService {
     const numResposta = parseInt(command.split(' ')[1], 10) - 1;
 
     if (isNaN(numResposta) || numResposta < 0 || numResposta >= opcoes.length) {
-      this.stateSvc.addLog("[SISTEMA]: Resposta inválida.", 'log-negativo');
+      this.stateSvc.addLog(this.langSvc.getString('system_messages.invalid_response'), 'log-negativo');
       return;
     }
     
@@ -188,9 +190,7 @@ export class CharacterService {
     setTimeout(() => {
       this.flowSvc.ativarPersonagensPorFase();
       this.flowSvc.startGameplayMusic();
-      if (gameData.orientacao_inicial_frases) {
-        gameData.orientacao_inicial_frases.forEach((frase: string) => this.stateSvc.addLog(frase, 'log-sistema'));
-      }
+      
       this.stateSvc.addLog(`[ORÁCULO]: ${saudacao}`, this.getNpcColor(gameData.personagens_base.oraculo));
       this.iniciarDialogoFixo('oraculo', gameData.personagens_base.oraculo);
     }, 500);
@@ -198,6 +198,9 @@ export class CharacterService {
   
   public processarInteracaoConfianca(npcState: NpcData, npcName: string, efeitoDialogo: number = 0, efeitoInfluenciaHeroi: number = 0): boolean {
     let tocouSom = false;
+    
+    const influenciaKey = 'ui.status_bar_influence';
+    const confiancaKey = 'Confiança'; // Placeholder, idealmente viria do lang file também
 
     if (npcState.tipo === 'guia' || npcState.tipo === 'agente' || npcState.tipo === 'lider' || npcState.tipo === 'sabio') {
         if (efeitoInfluenciaHeroi) {
@@ -207,7 +210,7 @@ export class CharacterService {
                 this.soundSvc.playSfx('luz');
             }
             this.stateSvc.setGameState({ heroi_influencia_percent: novaInfluencia });
-            this.stateSvc.addLog(`[INFLUÊNCIA]: Sua conversa com ${npcName.toUpperCase()} fortaleceu sua Influência para ${novaInfluencia.toFixed(0)}%.`, 'log-positivo');
+            this.stateSvc.addLog(`[${this.langSvc.getString(influenciaKey).toUpperCase()}]: Sua conversa com ${npcName.toUpperCase()} fortaleceu sua ${this.langSvc.getString(influenciaKey)} para ${novaInfluencia.toFixed(0)}%.`, 'log-positivo');
         }
         return false;
     }
@@ -231,7 +234,7 @@ export class CharacterService {
 
     this.stateSvc.setGameState({ heroi_influencia_percent: novaInfluenciaHeroi, personagens_atuais: this.stateSvc.gameState.personagens_atuais });
     
-    this.stateSvc.addLog(`[INFLUÊNCIA]: Sua Influência: ${this.stateSvc.gameState.heroi_influencia_percent.toFixed(0)}% | Confiança de ${npcName.toUpperCase()}: ${npcState.fe.toFixed(0)}%`, 'log-sistema');
+    this.stateSvc.addLog(`[${this.langSvc.getString(influenciaKey).toUpperCase()}]: Sua ${this.langSvc.getString(influenciaKey)}: ${this.stateSvc.gameState.heroi_influencia_percent.toFixed(0)}% | ${confiancaKey} de ${npcName.toUpperCase()}: ${npcState.fe.toFixed(0)}%`, 'log-sistema');
     
     this.flowSvc.checkPhaseCompletion();
     return npcState.fe > confiancaNpcAntes;
@@ -278,7 +281,7 @@ export class CharacterService {
     const gameState = this.stateSvc.gameState;
     const novosFragmentos = [...gameState.fragmentos_chave, fragmento];
     this.stateSvc.setGameState({ fragmentos_chave: novosFragmentos });
-    this.stateSvc.addLog(`[SISTEMA]: Fragmento da chave adquirido: '${fragmento}'`, 'log-positivo');
+    this.stateSvc.addLog(this.langSvc.getString('system_messages.key_fragment_received', fragmento), 'log-positivo');
     this.flowSvc.checkPhaseCompletion();
   }
 }
