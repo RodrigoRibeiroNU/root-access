@@ -1,0 +1,8 @@
+{
+    "tipo": "lider",
+    "fe": 100,
+    "dialogos": {
+        "inicial": { "texto": "Eu conheço os firewalls que combates. A tua coragem lembra-me do caminho que abandonei... e que agora retomo. O que precisas?", "opcoes": [{"texto": "Procuro o terceiro fragmento da chave.", "proximo_dialogo": "revelacao", "efeito_fe_heroi": 5}] },
+        "revelacao": { "texto": "Uma verdade que aprendi da forma mais difícil. Lembra-te: '...pois a informação é poder...'. Usa este Rootkit para provar isso a outros.", "opcoes": [{"texto": "Não esquecerei.", "adicionar_pista": "...pois a informação é poder...", "adicionar_item": "rootkit"}] }
+    }
+}

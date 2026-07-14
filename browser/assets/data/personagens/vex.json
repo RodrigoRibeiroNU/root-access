@@ -1,0 +1,8 @@
+{
+    "tipo": "lider",
+    "fe": 100,
+    "dialogos": {
+        "inicial": { "texto": "Tornaste-te um superusuário nesta comunidade. Um ponto de acesso seguro na escuridão. Fala.", "opcoes": [{"texto": "Vim em busca do último fragmento.", "proximo_dialogo": "revelacao", "efeito_fe_heroi": 5}] },
+        "revelacao": { "texto": "A exposição aproxima-se. A última peça é esta: '...e a verdadeira rede... une consciências.'. Leva este Firewall Breaker. Que nenhum sistema te detenha.", "opcoes": [{"texto": "A chave está completa.", "adicionar_pista": "...e a verdadeira rede... une consciências.", "adicionar_item": "firewall_breaker"}] }
+    }
+}

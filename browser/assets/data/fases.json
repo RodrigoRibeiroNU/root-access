@@ -1,0 +1,86 @@
+{
+    "objetivos": [
+        "Ganha a Confiança de 1 contacto (80%) e reporta ao Oráculo.",
+        "Contacta a Admin 'Aria' para obter o primeiro fragmento da chave.",
+        "Ganha a Confiança de 2 contactos (80%) e reporta ao Oráculo.",
+        "Contacta o Admin 'Jaxx' para obter o segundo fragmento da chave.",
+        "Ganha a Confiança de 3 contactos (80%) e reporta ao Oráculo.",
+        "Contacta o Admin 'Kael' para obter o terceiro fragmento da chave.",
+        "Ganha a Confiança de 4 contactos (80%) e reporta ao Oráculo.",
+        "Contacta o Admin 'Cygnus' para obter o quarto fragmento da chave.",
+        "Ganha a Confiança de 5 contactos (80%) e reporta ao Oráculo.",
+        "Contacta o Admin 'Vex' para obter o último fragmento da chave.",
+        "Aumenta a Influência média da rede para >80% para aceder ao mainframe.",
+        "Leva a chave de desencriptação completa ao mainframe 'Nexus'."
+    ],
+    "fases_jogo": {
+        "fase_1": {
+            "id": 1,
+            "objetivo_conversao_indice": 0,
+            "objetivo_lider_indice": 1,
+            "conversao_necessaria": 1,
+            "lider": "aria",
+            "initial_active_npcs": [
+                "oraculo",
+                "byte",
+                "ice_alpha"
+            ]
+        },
+        "fase_2": {
+            "id": 2,
+            "objetivo_conversao_indice": 2,
+            "objetivo_lider_indice": 3,
+            "conversao_necessaria": 2,
+            "lider": "jaxx",
+            "initial_active_npcs": [
+                "glitch"
+            ]
+        },
+        "fase_3": {
+            "id": 3,
+            "objetivo_conversao_indice": 4,
+            "objetivo_lider_indice": 5,
+            "conversao_necessaria": 3,
+            "lider": "kael",
+            "initial_active_npcs": [
+                "script",
+                "ice_beta"
+            ]
+        },
+        "fase_4": {
+            "id": 4,
+            "objetivo_conversao_indice": 6,
+            "objetivo_lider_indice": 7,
+            "conversao_necessaria": 4,
+            "lider": "cygnus",
+            "initial_active_npcs": [
+                "kernel"
+            ]
+        },
+        "fase_5": {
+            "id": 5,
+            "objetivo_conversao_indice": 8,
+            "objetivo_lider_indice": 9,
+            "conversao_necessaria": 5,
+            "lider": "vex",
+            "initial_active_npcs": [
+                "proxy",
+                "switch"
+            ]
+        },
+        "fase_6": {
+            "id": 6,
+            "objetivo_espera_indice": 10,
+            "objetivo_final_indice": 11,
+            "sabio": "nexus",
+            "initial_active_npcs": [
+                "nexus"
+            ]
+        }
+    },
+    "finais": {
+        "vitoria": "Você executou a chave. O Dossier Fantasma foi desencriptado e transmitido para todas as redes globais. A verdade sobre a corporação foi exposta. A rede não é mais uma prisão, mas uma arma para a liberdade. Você encontrou a sua redenção no código.",
+        "fe_baixa": "A sua influência caiu a zero. Localizado e isolado pelo ICE, o teu terminal é desligado da rede. Tornas-te um fantasma nos cabos, um eco perdido no sistema. Fim da linha.",
+        "impasse": "Um fragmento da chave foi perdido para sempre. Não há mais esperança de montar o Dossier. A corporação vence. A escuridão digital prevalece. Fim da linha."
+    }
+}

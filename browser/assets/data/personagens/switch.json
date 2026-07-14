@@ -1,0 +1,27 @@
+{
+    "tipo": "neutro",
+    "fe": 25,
+    "dialogos": {
+        "frases_iniciais": [
+            "Por que eu deveria confiar em ti? A última vez que confiei, fui traído pelo sistema. Tudo tem um preço.",
+            "A redenção não tem preço? Isso é má economia.",
+            "O meu único interesse é o meu valor, não a tua 'influência'.",
+            "O perdão é a única moeda que pode comprar a paz? Onde está a cotação disso?",
+            "Não estou a pedir nada em troca? Isso é o que todos dizem antes de apresentarem a fatura."
+        ],
+        "frases_heroi": [
+            { "texto": "A redenção não tem preço. É um presente que se aceita pela confiança.", "efeito_fe_npc": 25 },
+            { "texto": "O meu único interesse é a tua liberdade, não o teu valor.", "efeito_fe_npc": 20 },
+            { "texto": "A traição do passado não precisa de definir o teu futuro.", "efeito_fe_npc": 15 },
+            { "texto": "Desta vez, não confies no sistema. Confia em mim.", "efeito_fe_npc": 20 },
+            { "texto": "O perdão é a única moeda que pode comprar a paz. E ele é gratuito.", "efeito_fe_npc": 25 }
+        ],
+        "respostas_agradecimento": [
+            "Um... presente? Esta noção... é contrária a toda a minha lógica, mas... é a única que me pode libertar. Eu aceito.",
+            "Confiar... é difícil. Mas as tuas palavras não soam vazias. Obrigado.",
+            "Perdão... gratuito? Talvez... talvez eu possa começar a acreditar nisso.",
+            "Não me julgaste. Agradeço por isso. Sinto-me mais leve.",
+            "Uma chance... talvez eu mereça uma. Obrigado pela tua gentileza."
+        ]
+    }
+}

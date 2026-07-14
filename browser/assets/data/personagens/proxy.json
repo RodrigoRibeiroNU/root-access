@@ -1,0 +1,27 @@
+{
+    "tipo": "neutro",
+    "fe": 45,
+    "dialogos": {
+        "frases_iniciais": [
+            "Mostra-me o plano. Não em palavras, mas em algo real. Como posso acreditar na liberdade se não me lembro do seu sabor?",
+            "O sinal real é esta conversa? Ou apenas mais uma armadilha?",
+            "A mudança que vês nos outros... é real ou apenas um script bem executado?",
+            "Não me podes mostrar o mundo lá fora, mas podes partilhar o teu código comigo. Mostra-me.",
+            "Acreditar em ti, e tu acreditas em mim. É essa a tua firewall?"
+        ],
+        "frases_heroi": [
+            { "texto": "O calor que procuras não vem de um servidor central, mas de nós. Sente a esperança na rede.", "efeito_fe_npc": 15 },
+            { "texto": "Fecha os teus portos e ouve. A prova não é para ser vista, mas sentida.", "efeito_fe_npc": 20 },
+            { "texto": "A liberdade não é um objeto, é uma direção. Vamos avançar juntos.", "efeito_fe_npc": 15 },
+            { "texto": "O milagre é que ainda estamos aqui, a conversar, a resistir.", "efeito_fe_npc": 10 },
+            { "texto": "A tua exigência por provas é uma forma de confiança. Confiança na lógica. Expande-a.", "efeito_fe_npc": 10 }
+        ],
+        "respostas_agradecimento": [
+            "O calor... dos outros? É sutil, mas... acho que o sinto. É o suficiente por agora.",
+            "Uma chama partilhada... Sinto-a. Obrigado.",
+            "Um milagre na resistência... Gosto disso. A minha perspetiva mudou.",
+            "A prova está na conexão... Fascinante. E reconfortante.",
+            "A tua confiança é tangível. Agradeço por me deixares senti-la."
+        ]
+    }
+}

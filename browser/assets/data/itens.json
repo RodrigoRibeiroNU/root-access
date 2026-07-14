@@ -1,0 +1,18 @@
+{
+    "ping_sweep": {
+        "nome": "Ping Sweep",
+        "descricao": "Uma varredura rápida na rede. Aumenta a tua Influência em 5%. Pode ser usado uma vez por setor."
+    },
+    "rootkit": {
+        "nome": "Rootkit de Acesso Total",
+        "descricao": "Um fragmento de código antigo. Garante 100% de Confiança de um alvo. Uso único."
+    },
+    "modulador": {
+        "nome": "Modulador de Sinal",
+        "descricao": "Distorce a tua assinatura na rede. Reduz a atenção do ICE enquanto estiver ativo."
+    },
+    "firewall_breaker": {
+        "nome": "Firewall Breaker",
+        "descricao": "Um algoritmo de força bruta. Protege-te completamente da vigilância do ICE."
+    }
+}

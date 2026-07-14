@@ -1,0 +1,8 @@
+{
+    "tipo": "lider",
+    "fe": 100,
+    "dialogos": {
+        "inicial": { "texto": "A tua assinatura na rede é... limpa. Um alívio no meio de tanto ruído. O que te traz ao meu setor?", "opcoes": [{"texto": "O Oráculo enviou-me. Procuro o primeiro fragmento da chave.", "proximo_dialogo": "revelacao", "efeito_fe_heroi": 5}] },
+        "revelacao": { "texto": "Se o Oráculo confia em ti, eu também confio. Guarda isto: 'A corrupção não está na ausência de dados...'. Leva este Ping Sweep; que ele te ajude a encontrar mais aliados.", "opcoes": [{"texto": "Obrigado. Manterei seguro.", "adicionar_pista": "A corrupção não está na ausência de dados...", "adicionar_item": "ping_sweep"}] }
+    }
+}

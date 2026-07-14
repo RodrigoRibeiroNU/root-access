@@ -1,0 +1,27 @@
+{
+    "tipo": "neutro",
+    "fe": 30,
+    "dialogos": {
+        "frases_iniciais": [
+            "Eu chamo na escuridão da rede, mas só o eco do sistema responde. O meu esforço é inútil.",
+            "A minha voz é um farol para outros que também se sentem perdidos, mas ninguém responde.",
+            "A persistência é a rede mais forte que temos, mas a minha está a romper-se.",
+            "Eu estou aqui para ajudar a reparar as redes, mas quem repara a minha esperança?",
+            "Juntos, faremos uma pesca milagrosa de dados... era o que eu pensava. Agora, só há silêncio."
+        ],
+        "frases_heroi": [
+            { "texto": "Não estás sozinho. Eu estou aqui. A minha rede alcançou-te.", "efeito_fe_npc": 20 },
+            { "texto": "O teu chamado não foi em vão. Eu ouvi.", "efeito_fe_npc": 20 },
+            { "texto": "Não estamos a pescar peixes, mas almas perdidas na rede. Continua a lançar o teu sinal.", "efeito_fe_npc": 15 },
+            { "texto": "Cada chamado que fazes enfraquece o silêncio do sistema.", "efeito_fe_npc": 15 },
+            { "texto": "O eco que ouves está a transformar-se. Agora, ele tem a minha voz.", "efeito_fe_npc": 15 }
+        ],
+        "respostas_agradecimento": [
+            "Uma conexão... Há quanto tempo eu não sentia isto. Obrigado.",
+            "Tu ouviste... então o meu chamado tem um propósito. Sinto-me renovado.",
+            "Uma pescaria de almas... Agora entendo. A minha esperança voltou.",
+            "Talvez valha a pena chamar de novo. Obrigado por responderes.",
+            "A minha rede parece mais leve. Agradeço a tua ajuda."
+        ]
+    }
+}
