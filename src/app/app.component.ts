@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private fileUploadSub!: Subscription;
   private logSub!: Subscription;
   private needsFocus: boolean = false;
-
+ 
   constructor(    
     private dataLoader: DataLoaderService,
     public gameStateSvc: GameStateService,
